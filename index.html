@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Amir Anderson — Production Designer · Motion &amp; Broadcast</title>
+<meta name="description" content="Amir Anderson is a production designer crafting broadcast motion, brand systems, and cinematic animation for CNN, Warner Bros. Discovery, and the NBA on TNT." />
+<meta property="og:title" content="Amir Anderson — Production Designer" />
+<meta property="og:description" content="Broadcast motion, brand systems, and cinematic design for CNN & Warner Bros. Discovery." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://mir-s3-cdn-cf.behance.net" />
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600&display=swap" rel="stylesheet" />
+<link rel="preload" as="font" type="font/otf" href="assets/fonts/organetto-cnd-regular.otf" crossorigin />
+<link rel="preload" as="font" type="font/otf" href="assets/fonts/organetto-cnd-light.otf" crossorigin />
+<link rel="preload" as="font" type="font/otf" href="assets/fonts/organetto-cnd-thin.otf" crossorigin />
+<style>
+  /* ============================================================
+     FONTS
+     ============================================================ */
+  @font-face { font-family: 'Organetto Cnd'; src: url('assets/fonts/organetto-cnd-regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: block; }
+  @font-face { font-family: 'Organetto Cnd'; src: url('assets/fonts/organetto-cnd-regular.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: block; }
+  @font-face { font-family: 'Organetto Cnd'; src: url('assets/fonts/organetto-cnd-light.otf') format('opentype'); font-weight: 300; font-style: normal; font-display: block; }
+  @font-face { font-family: 'Organetto Cnd'; src: url('assets/fonts/organetto-cnd-thin.otf') format('opentype'); font-weight: 100; font-style: normal; font-display: block; }
+
+  /* ============================================================
+     DESIGN TOKENS
+     ============================================================ */
+  :root {
+    --bg: #EDF2EC;
+    --surface: #F7F8F4;
+    --ink: #1F1E1B;
+    --muted: #57554F;
+    --faint: #6E6A63;
+    --accent: #7DA7D7;
+    --accent-deep: #5C86BE;
+    --line: rgba(31, 30, 27, 0.14);
+    --line-strong: rgba(31, 30, 27, 0.28);
+
+    --font-display: 'Organetto Cnd', 'Jost', 'Futura PT', system-ui, sans-serif;
+    --font-body: 'Futura PT', 'Jost', 'Helvetica Neue', Arial, sans-serif;
+    --font-sans: var(--font-body);
+    --font-mono: var(--font-body);
+
+    --gutter: clamp(20px, 4.5vw, 64px);
+    --max: 1480px;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --nav-h: 72px;
+    --space-lg: clamp(72px, 12vh, 150px);
+    --space-md: clamp(48px, 8vh, 90px);
+    --fs-card: clamp(19px, 2.4vw, 28px);
+    --fs-modal: clamp(26px, 5vw, 54px);
+    --fs-suggest: clamp(14px, 1.6vw, 19px);
+    --fs-label: 11px;
+  }
+
+  /* ============================================================
+     BASE / RESET
+     ============================================================ */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
+  /* Work anchor lands slightly past the On-Air marquee */
+  #work { scroll-margin-top: 40px; }
+  html { scrollbar-width: thin; scrollbar-color: var(--line-strong) var(--bg); }
+  html, body { touch-action: pan-y; -webkit-overflow-scrolling: touch; }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--line-strong); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--accent-deep); color: #fff; }
+  :focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 3px; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  button { font-family: inherit; cursor: pointer; background: none; border: none; color: inherit; }
+  .card, .cap-box, .ps-zone, .btn, .ps-cta, .suggest-card, .sound-toggle, .mv-btn { touch-action: manipulation; }
+
+  /* ============================================================
+     UTILITIES
+     ============================================================ */
+  .toprule { position: fixed; top: 0; left: 0; right: 0; height: 1px; background: var(--line-strong); z-index: 1100; pointer-events: none; }
+  .amp { font-family: var(--font-body); font-weight: inherit; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  /* grain overlay */
+  .grain {
+    position: fixed; inset: 0; z-index: 2000; pointer-events: none;
+    opacity: 0.035; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  }
+
+  /* ============================================================
+     CURSOR (dot + trailing ring)
+     ============================================================ */
+  .cursor-dot, .cursor-ring {
+    position: fixed; top: 0; left: 0; z-index: 3000; pointer-events: none;
+    border-radius: 50%; transform: translate(-50%, -50%); will-change: transform;
+  }
+  .cursor-dot { width: 5px; height: 5px; background: var(--accent); }
+  .cursor-ring { width: 30px; height: 30px; border: 1px solid var(--line-strong); transition: width .25s var(--ease), height .25s var(--ease), background .25s var(--ease), border-color .25s var(--ease); }
+  .cursor-ring.is-active { width: 52px; height: 52px; background: rgba(125,167,215,0.14); border-color: var(--accent); }
+  @media (pointer: coarse), (prefers-reduced-motion: reduce) { .cursor-dot, .cursor-ring { display: none; } }
+
+  /* ============================================================
+     PRELOADER / INTRO
+     ============================================================ */
+  .preloader {
+    position: fixed; inset: 0; z-index: 4000; background: rgba(237,242,236,0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 1.2s var(--ease);
+  }
+  .preloader.done { transform: translateY(-100%); }
+  .preloader .mark { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+  .preloader .mark .glyph {
+    width: 220px; height: 220px; flex: 0 0 auto;
+    background: url('assets/logo-mark.png?v=2') center/contain no-repeat;
+    will-change: transform, opacity;
+    animation: spinIntro 0.7s ease forwards;
+  }
+  @keyframes spinIntro {
+    0% { transform: rotate(180deg) scale(.6); opacity: 0; }
+    60% { transform: rotate(0deg) scale(1.12); opacity: 1; }
+    100% { transform: rotate(0deg) scale(1); opacity: 1; }
+  }
+  @keyframes spin {
+    0% { transform: rotate(180deg) scale(.85); }
+    55% { transform: rotate(0deg) scale(1.15); }
+    100% { transform: rotate(0deg) scale(1); }
+  }
+
+  /* ============================================================
+     NAV + MOBILE MENU
+     ============================================================ */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: var(--nav-h);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 var(--gutter);
+    border-bottom: 1px solid transparent; transition: background .35s var(--ease), border-color .35s var(--ease), backdrop-filter .35s var(--ease);
+  }
+  .nav.scrolled { background: rgba(237,242,236,0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+  .brand { display: flex; align-items: center; gap: 11px; }
+  .brand .glyph { width: 32px; height: 32px; display: block; background: url('assets/logo-mark.png?v=2') center/contain no-repeat; }
+  .brand .glyph.spin { animation: spin 0.6s ease; }
+  .brand .nm { font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: .01em; }
+  .brand .nm span { color: var(--muted); font-weight: 300; }
+  .nav-links { display: flex; align-items: center; gap: clamp(18px, 3vw, 36px); }
+  .nav-links a { font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); position: relative; padding: 4px 0; transition: color .3s var(--ease); }
+  .nav-links a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 1px; background: var(--ink); transition: width .3s var(--ease); }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta { font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; background: var(--ink); color: var(--bg); padding: 11px 18px; transition: background .3s var(--ease), color .3s var(--ease), transform .3s var(--ease); }
+  .nav-cta:hover { background: var(--accent-deep); color: var(--bg); transform: translateY(-2px); }
+  .burger { display: none; flex-direction: column; gap: 5px; padding: 10px; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+  .burger span { width: 24px; height: 2px; background: var(--ink); transition: transform .3s var(--ease), opacity .3s var(--ease); }
+
+  .mmenu { position: fixed; inset: 0; z-index: 1500; background: var(--bg); display: flex; flex-direction: column; justify-content: center; padding: var(--gutter); transform: translateY(-100%); transition: transform .5s var(--ease); }
+  .mmenu.open { transform: translateY(0); }
+  .mmenu a { font-family: var(--font-display); font-size: clamp(36px, 9vw, 64px); font-weight: 700; letter-spacing: -0.02em; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .mmenu a small { font-family: var(--font-mono); font-size: 11px; letter-spacing: .2em; color: var(--faint); margin-right: 16px; vertical-align: middle; }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero { padding: calc(var(--nav-h) + clamp(56px, 11vh, 150px)) var(--gutter) var(--space-lg); max-width: var(--max); margin: 0 auto; }
+  .hero-name { font-family: var(--font-display); font-size: clamp(44px, 10vw, 150px); font-weight: 700; line-height: 0.9; letter-spacing: 0; text-transform: uppercase; }
+  .hero-name .line:nth-child(2) > span { font-weight: 100; color: var(--muted); }
+  .hero-name .line { display: block; overflow: hidden; }
+  .hero-name .line > span { display: inline-block; transform: translateY(112%); }
+  body.intro-done .hero-name .line > span { animation: heroRise 1s var(--ease) forwards; }
+  body.intro-done .hero-name .line:nth-child(2) > span { animation-delay: .1s; }
+  .hero-name .ln { color: var(--accent); }
+  @keyframes heroRise { to { transform: translateY(0); } }
+  .hero-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; margin-top: clamp(26px, 4.5vh, 52px); opacity: 0; }
+  body.intro-done .hero-row { animation: fadeUp .9s var(--ease) .35s both; }
+  .hero-statement { width: 100%; font-size: clamp(18px, 2vw, 24px); font-weight: 400; line-height: 1.5; color: var(--muted); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ============================================================
+     LAYOUT WRAPPER
+     ============================================================ */
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* ============================================================
+     REEL
+     ============================================================ */
+  .reel { padding: 0 0 var(--space-md); }
+  .reel-video { position: relative; overflow: hidden; border: 1px solid var(--line); background: #000; }
+  .reel-video-el { width: 100%; aspect-ratio: 16/9; display: block; object-fit: cover; background: #000; }
+  .sound-toggle { position: absolute; top: 16px; right: 16px; z-index: 3; display: inline-flex; align-items: center; gap: 8px; padding: 12px 15px; background: rgba(31,30,27,0.72); color: #fff; border: 1px solid rgba(255,255,255,0.28); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); font-family: var(--font-body); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; transition: background .3s var(--ease); }
+  .sound-toggle:hover { background: rgba(31,30,27,0.92); }
+  .sound-toggle .st-on { display: none; }
+  .sound-toggle.is-on .st-on { display: inline; }
+  .sound-toggle.is-on .st-off { display: none; }
+
+  /* ============================================================
+     ON-AIR LOGO MARQUEE
+     ============================================================ */
+  .marquee-sec { padding: 0 0 var(--space-md); }
+  .marquee-lbl { text-align: center; font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: .2em; text-transform: uppercase; color: var(--faint); margin-bottom: 20px; }
+  .marquee { overflow: hidden; padding: 16px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+  .marquee-track { display: flex; width: max-content; animation: marquee 90s linear infinite; will-change: transform; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  .marquee-group { display: flex; align-items: center; gap: 96px; padding-right: 96px; }
+  .marquee-group img { height: 30px; width: auto; max-width: 170px; object-fit: contain; opacity: 0.72; filter: grayscale(1); transition: opacity .3s var(--ease), transform .3s var(--ease); }
+  .marquee-group img:hover { opacity: 1; transform: scale(1.15); }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ============================================================
+     WORK GRID + CARDS
+     ============================================================ */
+  .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(20px, 3vw, 44px); padding-bottom: var(--space-md); }
+  .card { position: relative; }
+  .card .thumb { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); cursor: pointer; }
+  .card .thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; transform: scale(1.001); transition: transform .7s var(--ease); }
+  .card .thumb img.contain { object-fit: contain; }
+  .card:hover .thumb img { transform: scale(1.05); }
+  .card .thumb::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(31,30,27,0.16)); opacity: 0; transition: opacity .4s var(--ease); }
+  .card:hover .thumb::after { opacity: 1; }
+  .card .idx { position: absolute; top: 12px; left: 12px; font-family: var(--font-mono); font-size: 11px; color: var(--bg); background: var(--ink); padding: 5px 9px; }
+  .card .card-meta { padding: 14px 2px 0; }
+  .card .title { font-family: var(--font-display); font-size: var(--fs-card); font-weight: 400; letter-spacing: 0; line-height: 1.08; transition: color .3s var(--ease); }
+  .card .title .arr { display: inline-block; color: var(--accent); margin-left: 8px; font-family: var(--font-body); opacity: 0; transform: translateX(-6px); transition: opacity .3s var(--ease), transform .3s var(--ease); }
+  .card:hover .title .arr { opacity: 1; transform: translateX(0); }
+  .card:hover .title { color: var(--accent-deep); }
+  .card .sub { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+  .card .sub b { color: var(--ink); font-weight: 700; }
+
+  /* ============================================================
+     ABOUT + CAPABILITIES
+     ============================================================ */
+  .about { background: var(--bg); border-top: 1px solid var(--line); }
+  .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(36px, 6vw, 90px); padding-top: clamp(48px, 8vh, 90px); padding-bottom: clamp(48px, 8vh, 90px); }
+  .about-grid > .reveal:last-child { align-self: start; margin-top: 88px; }
+  .about h2 { font-family: var(--font-body); font-size: clamp(24px, 2.8vw, 36px); font-weight: 600; letter-spacing: 0; line-height: 1.3; margin-bottom: 24px; }
+  .about p { color: var(--muted); font-size: 16px; font-weight: 400; line-height: 1.7; margin-bottom: 18px; }
+  .clients { text-align: center; }
+  .clients .lbl { font-family: var(--font-mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--faint); margin-bottom: 20px; }
+  .caps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 12px; text-align: center; }
+  .cap-box { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 18px 14px; border: 1px solid var(--line-strong); transition: border-color .3s var(--ease), background .3s var(--ease); }
+  .cap-box:hover { border-color: var(--accent); background: rgba(125, 167, 215, 0.09); }
+  .cap-box .cap-name { font-family: var(--font-body); font-size: 14px; font-weight: 600; letter-spacing: .01em; color: var(--ink); transition: color .3s var(--ease); }
+  .cap-box:hover .cap-name { color: var(--accent-deep); }
+  .cap-box .cap-desc { position: absolute; left: -1px; right: -1px; top: calc(100% + 8px); padding: 12px 14px; text-align: left; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 14px 34px rgba(31, 30, 27, 0.1); font-family: var(--font-body); font-size: 12.5px; line-height: 1.5; font-weight: 400; color: var(--muted); opacity: 0; transform: translateY(-4px); pointer-events: none; transition: opacity .25s var(--ease), transform .25s var(--ease); z-index: 20; }
+  .cap-box:hover .cap-desc, .cap-box:focus .cap-desc, .cap-box:focus-within .cap-desc { opacity: 1; transform: translateY(0); }
+
+  /* ============================================================
+     PLUGIN SHOWCASE (single full-width card)
+     ============================================================ */
+  .plugins { border-top: 1px solid var(--line); padding-top: var(--space-md); padding-bottom: var(--space-md); }
+  .plugins-head { margin-bottom: clamp(24px, 4vh, 44px); }
+  .plugins-head h2 { font-family: var(--font-body); font-size: clamp(30px, 5vw, 56px); font-weight: 600; letter-spacing: 0; line-height: 1; margin-bottom: 8px; }
+  .plugins-head p { color: var(--muted); font-size: 16px; }
+
+  .plugin-card.single {
+    display: grid;
+    grid-template-columns: calc(310px + 2 * clamp(24px, 2.8vw, 40px) + 1px) 1fr;
+    align-items: stretch;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    overflow: hidden;
+    transition: border-color .3s var(--ease);
+  }
+  .plugin-card.single:hover { border-color: var(--line-strong); }
+  .plugin-card.single .ps-thumb {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background-color: var(--bg);
+    border-right: 1px solid var(--line);
+    position: relative;
+    padding: clamp(24px, 2.8vw, 40px);
+  }
+  .ps-slides { display: flex; flex-direction: column; align-items: center; width: 100%; padding-bottom: 12px; }
+  .ps-stage { width: 100%; max-width: 310px; }
+  .ps-stage-img { width: 100%; height: auto; display: block; border: 1px solid var(--line-strong); background: var(--bg); transition: opacity .25s var(--ease); }
+  .ps-stage-img.is-switching { opacity: 0; }
+  .ps-slide-nav { display: flex; align-items: center; gap: 14px; width: 100%; max-width: 310px; margin-top: 28px; }
+  .ps-arrow { width: 44px; height: 44px; flex: 0 0 auto; padding: 0; border: none; background: none; color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 26px; line-height: 1; transition: color .3s var(--ease); }
+  .ps-arrow:hover { color: var(--accent-deep); }
+  .ps-arrow:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 2px; }
+  .ps-slide-meta { flex: 1 1 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 10px; min-width: 0; }
+  .ps-slide-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .ps-slide-count { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; color: var(--faint); white-space: nowrap; }
+  .ps-slide-count span { color: var(--ink); font-weight: 600; }
+  .ps-slide-dots { display: flex; align-items: center; justify-content: center; gap: 6px; position: absolute; bottom: clamp(24px, 2.8vw, 40px); left: 0; right: 0; }
+  .ps-dot { position: relative; width: 30px; height: 12px; padding: 0; border: none; background: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+  .ps-dot::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--line-strong); transition: background .3s var(--ease), transform .3s var(--ease); }
+  .ps-dot:hover::before { background: var(--muted); }
+  .ps-dot.is-active::before { background: var(--accent-deep); transform: scale(1.3); }
+  .ps-dot:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 2px; }
+
+  .ps-info { display: flex; flex-direction: column; gap: 13px; padding: clamp(24px, 2.8vw, 40px); min-width: 0; }
+  .ps-eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .ps-badge { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; line-height: 1; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line-strong); padding: 9px 14px; }
+  .ps-name { font-family: var(--font-body); font-size: clamp(24px, 2.8vw, 38px); font-weight: 600; letter-spacing: 0; line-height: 1.05; color: var(--ink); margin: 6px 0 0; }
+  .ps-intro-text { color: var(--muted); font-size: 15px; line-height: 1.6; margin: 0; }
+
+  .ps-zones { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
+  .ps-zone { display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 14px; letter-spacing: .01em; line-height: 1.2; font-weight: 600; color: var(--ink); border: 1px solid var(--line-strong); background: transparent; padding: 13px 16px; min-height: 44px; cursor: pointer; transition: color .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease); }
+  .ps-zone:hover, .ps-zone:focus-visible, .ps-zone.is-active { color: var(--accent-deep); border-color: var(--accent); background: rgba(125, 167, 215, 0.09); }
+  .ps-reveal { position: relative; min-height: 220px; margin-top: 18px; border: 1px solid var(--line); background: var(--bg); transition: height .4s var(--ease); overflow: hidden; }
+  .ps-hint { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); margin: 2px 0 0; }
+  .ps-panel { position: absolute; inset: 0; padding: 20px 22px; opacity: 0; transform: translateY(6px); pointer-events: none; transition: opacity .25s var(--ease), transform .25s var(--ease); }
+  .ps-panel.is-active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .ps-label { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin: 0 0 10px; }
+  .ps-list { list-style: none; margin: 0; padding: 0; }
+  .ps-list li { color: var(--muted); font-size: 13.5px; line-height: 1.55; padding: 4px 0 4px 16px; position: relative; }
+  .ps-list li::before { content: '\2022'; position: absolute; left: 0; top: 4px; color: var(--accent-deep); font-family: var(--font-mono); }
+  .ps-steps { counter-reset: psstep; }
+  .ps-steps li { counter-increment: psstep; padding-left: 28px; }
+  .ps-steps li::before { content: counter(psstep) '. '; left: 0; top: 4px; font-size: 12px; letter-spacing: .05em; }
+  .ps-steps li span { color: var(--ink); font-weight: 600; }
+  .ps-text { color: var(--muted); font-size: 13.5px; line-height: 1.6; margin: 0; }
+  .ps-text-sub { margin-top: 8px; }
+  .ps-cats-text { color: var(--muted); font-size: 13.5px; line-height: 1.6; margin: 0; }
+  .ps-cats { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .ps-cat { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; line-height: 1; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line-strong); padding: 9px 14px; white-space: nowrap; }
+  .ps-cats-more { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .ps-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: auto; }
+  .ps-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: var(--bg); border: 1px solid var(--ink); padding: 14px 26px; font-family: var(--font-mono); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; transition: background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease), transform .3s var(--ease); }
+  .ps-cta:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bg); transform: translateY(-2px); }
+  .ps-specs { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+  /* ============================================================
+     CONTACT
+     ============================================================ */
+  .contact { border-top: 1px solid var(--line); padding-top: clamp(80px, 13vh, 170px); padding-bottom: clamp(100px, 16vh, 200px); }
+  .contact h2 { font-family: var(--font-body); font-size: clamp(30px, 5vw, 64px); font-weight: 600; letter-spacing: 0; line-height: 1; margin-bottom: 20px; }
+  .contact p { color: var(--muted); font-size: 17px; max-width: 520px; margin-bottom: 32px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; padding: 16px 30px; max-width: 100%; overflow-wrap: anywhere; word-break: break-word; white-space: normal; background: var(--ink); color: var(--bg); transition: background .3s var(--ease), color .3s var(--ease), transform .3s var(--ease); }
+  .btn:hover { background: var(--accent-deep); color: var(--bg); transform: translateY(-2px); }
+  .contact .socials { display: flex; gap: 26px; margin-top: 30px; flex-wrap: wrap; }
+  .contact .socials a { font-family: var(--font-mono); font-size: 13px; letter-spacing: .08em; color: var(--muted); border-bottom: 1px solid var(--line-strong); padding-bottom: 3px; transition: color .3s var(--ease), border-color .3s var(--ease); }
+  .contact .socials a:hover { color: var(--ink); border-color: var(--accent); }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer { position: relative; z-index: 1; background: rgba(237,242,236,0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--line); }
+  footer .f-inner { position: relative; z-index: 1; max-width: var(--max); margin: 0 auto; padding: 28px var(--gutter); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  footer .f-l, footer .f-r { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; color: var(--faint); text-transform: uppercase; }
+  footer .f-r { display: flex; gap: 22px; }
+  footer .f-r a { color: var(--muted); transition: color .3s var(--ease); }
+  footer .f-r a:hover { color: var(--ink); }
+
+  /* ============================================================
+     MODAL
+     ============================================================ */
+  .modal { position: fixed; inset: 0; z-index: 2500; overflow-y: auto; background: var(--bg); opacity: 0; visibility: hidden; transition: opacity .4s var(--ease), visibility .4s; }
+  .modal.open { opacity: 1; visibility: visible; }
+  .modal-head { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; padding: 16px var(--gutter); background: rgba(237,242,236,0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+  .modal-close { font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 10px; padding: 8px; min-height: 44px; transition: color .3s var(--ease); }
+  .modal-close:hover { color: var(--ink); }
+  .modal-back { font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; padding: 8px; min-height: 44px; transition: color .3s var(--ease); }
+  .modal-back:hover { color: var(--ink); }
+  .modal-back .arr { color: var(--accent); font-family: var(--font-body); transition: transform .3s var(--ease); }
+  .modal-back:hover .arr { transform: translateX(-3px); }
+  .modal-body { padding: 0 var(--gutter) 80px; max-width: var(--max); margin: 0 auto; }
+  .modal-cover { width: 100%; aspect-ratio: 16/9; object-fit: cover; border: 1px solid var(--line); margin-bottom: clamp(24px, 4vh, 44px); }
+  .modal-cover.wide { aspect-ratio: 128/50; }
+  .modal-cover.contain { object-fit: contain; }
+  .modal-title { font-family: var(--font-body); font-size: var(--fs-modal); font-weight: 700; letter-spacing: 0; line-height: 1.02; text-transform: uppercase; }
+  .modal-desc { max-width: 100%; font-size: clamp(16px, 1.9vw, 20px); font-weight: 400; line-height: 1.6; color: var(--muted); margin-bottom: 36px; }
+  .modal-desc strong { color: var(--ink); font-weight: 600; }
+  .modal-links { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .modal-links .modal-link-txt { font-family: var(--font-mono); font-size: 13px; letter-spacing: .08em; color: var(--muted); border-bottom: 1px solid var(--line-strong); padding-bottom: 3px; transition: color .3s var(--ease), border-color .3s var(--ease); }
+  .modal-links .modal-link-txt:hover { color: var(--ink); border-color: var(--accent); }
+  .modal-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 40px; }
+  .modal-gallery figure { margin: 0; }
+  .modal-gallery img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border: 1px solid var(--line); display: block; }
+  .modal-gallery.stack { grid-template-columns: 1fr; }
+  .modal-gallery.cols3 { grid-template-columns: repeat(3, 1fr); }
+  .modal-diagonal-wrap { margin-bottom: 40px; }
+  .modal-diagonal-wrap .media-label { margin-bottom: 22px; }
+  .modal-diagonal { display: flex; flex-direction: column; align-items: center; gap: clamp(20px, 3vw, 44px); }
+  .modal-diagonal .diag { margin: 0; width: 90%; }
+  .modal-diagonal .diag img { width: 100%; height: auto; display: block; border: 1px solid var(--line); background: var(--surface); }
+  .mimg { margin: 0; }
+  .modal-clips { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 40px; }
+  .modal-clips figure { margin: 0; }
+  .modal-clips video { width: 100%; aspect-ratio: 16/9; object-fit: cover; border: 1px solid var(--line); display: block; background: #000; }
+  .modal-transitions { margin-bottom: 40px; }
+  .trans-stills, .trans-videos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .trans-stills { margin-bottom: 12px; }
+  .trans-stills figure, .trans-videos figure { margin: 0; }
+  .trans-stills img, .trans-videos video { width: 100%; aspect-ratio: 16/9; object-fit: cover; border: 1px solid var(--line); display: block; background: #000; }
+  .modal-studio { margin-bottom: 40px; }
+  .modal-studio video { width: 100%; aspect-ratio: 16/9; object-fit: cover; border: 1px solid var(--line); display: block; background: #000; }
+  .modal-studio img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border: 1px solid var(--line); display: block; }
+  .modal-embed { position: relative; width: 100%; aspect-ratio: 16/9; margin: 0 0 40px; border: 1px solid var(--line); background: #fff; overflow: hidden; }
+  .modal-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+  .modal-suggest { border-top: 1px solid var(--line); margin-top: 48px; padding-top: 30px; }
+  .suggest-label { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 22px; font-weight: 500; }
+  .suggest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .suggest-card { display: block; text-align: left; width: 100%; padding: 0; }
+  .suggest-thumb { display: block; position: relative; overflow: hidden; border: 1px solid var(--line); background: var(--surface); }
+  .suggest-thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; transform: scale(1.001); transition: transform .7s var(--ease); }
+  .suggest-thumb::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(31,30,27,0.16)); opacity: 0; transition: opacity .4s var(--ease); }
+  .suggest-card:hover .suggest-thumb img { transform: scale(1.05); }
+  .suggest-card:hover .suggest-thumb::after { opacity: 1; }
+  .suggest-title { display: block; font-family: var(--font-display); font-size: var(--fs-suggest); letter-spacing: 0; line-height: 1.15; margin-top: 12px; color: var(--ink); transition: color .3s var(--ease); }
+  .suggest-card:hover .suggest-title { color: var(--accent-deep); }
+  .mvideo { margin: 0; }
+  .mvideo-frame { position: relative; }
+  .media-label { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; font-weight: 500; }
+  .mvideo-ctl { position: absolute; right: 10px; bottom: 10px; display: flex; gap: 6px; z-index: 2; }
+  .mv-btn { width: 30px; height: 30px; border-radius: 50%; background: rgba(10,10,12,.5); color: #fff; border: 1px solid rgba(255,255,255,.22); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; transition: background .2s ease; backdrop-filter: blur(4px); }
+  .mv-btn:hover { background: rgba(10,10,12,.78); }
+  .mv-btn svg { width: 14px; height: 14px; fill: #fff; display: block; }
+  .mv-play .i-pause { display: none; }
+  .mv-play.playing .i-play { display: none; }
+  .mv-play.playing .i-pause { display: block; }
+  .modal-credits { border-top: 1px solid var(--line); padding-top: 24px; margin-bottom: 40px; }
+  .modal-credits h4 { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; font-weight: 500; }
+  .modal-credits ul { list-style: none; margin: 0; padding: 0; }
+  .modal-credits li { font-family: var(--font-body); font-size: 15px; line-height: 1.5; color: var(--muted); padding: 7px 0; }
+  .modal-credits li b { color: var(--ink); font-weight: 600; }
+
+  /* ============================================================
+     REVEAL ANIMATIONS
+     ============================================================ */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .work-grid .card.reveal { transition-delay: min(calc(var(--i, 0) * 15ms), 120ms); }
+
+  /* ============================================================
+     RESPONSIVE (≤860px)
+     ============================================================ */
+  @media (max-width: 860px) {
+    :root { --gutter: 24px; }
+    .nav-links { display: none; }
+    .burger { display: flex; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-grid > .reveal:last-child { margin-top: 0; }
+    .work-grid { grid-template-columns: 1fr; }
+    .hero-row { flex-direction: column; align-items: flex-start; }
+    .caps { grid-template-columns: 1fr; }
+    .modal-gallery { grid-template-columns: 1fr; }
+    .modal-clips { grid-template-columns: 1fr; }
+    .modal-diagonal .diag { width: 100%; transform: none; }
+    .trans-stills, .trans-videos { grid-template-columns: 1fr; }
+    .suggest-grid { grid-template-columns: 1fr; }
+    .plugin-card.single { grid-template-columns: 1fr; }
+    .plugin-card.single .ps-thumb { border-right: 0; border-bottom: 1px solid var(--line); padding: 16px; }
+    .ps-slide-nav, .ps-stage { max-width: none; }
+    .ps-stage { margin-top: 0; }
+    .ps-slide-nav { margin-top: 16px; }
+    .ps-slide-dots { position: static; margin-top: 16px; }
+    .ps-slides { padding-bottom: 0; }
+  }
+
+  /* ============================================================
+     REDUCED MOTION
+     ============================================================ */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; transition-duration: 0.001s !important; }
+    .hero-name .line > span { transform: none; }
+    .hero-row { opacity: 1 !important; }
+    .reveal { opacity: 1; transform: none; }
+    .marquee-track { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toprule"></div>
+<div class="grain"></div>
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<div class="preloader" id="preloader">
+  <div class="mark"><div class="glyph"></div></div>
+</div>
+
+<nav class="mmenu" id="mmenu">
+  <a href="#work">Work</a>
+  <a href="#about">About</a>
+  <a href="#plugins">Plugin Development</a>
+</nav>
+
+<header class="nav" id="nav">
+  <a href="#top" class="brand"><span class="glyph"></span><span class="nm">AMIR <span>ANDERSON</span></span></a>
+  <nav class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#plugins">Plugin Development</a>
+  </nav>
+  <a href="#contact" class="nav-cta">Let's talk</a>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1 class="hero-name">
+      <span class="line"><span>Amir</span></span>
+      <span class="line"><span>Anderson<span class="ln">.</span></span></span>
+    </h1>
+    <div class="hero-row">
+      <p class="hero-statement">I make graphics and motion for news, sports, and entertainment, specializing in broadcast design, brand systems, and visual storytelling. I collaborate with creative teams to build visual experiences and keep exploring tools like Viz Artist and Unreal Engine. Most of that work has been for CNN, Bleacher Report, and the NBA on TNT, from daily breaking-news graphics to full on-air packages.</p>
+    </div>
+  </section>
+
+  <!-- REEL -->
+  <section id="reel" class="wrap">
+    <div class="reel" id="reelBox"></div>
+  </section>
+
+  <!-- ON-AIR COMPANIES -->
+  <section class="wrap marquee-sec" aria-label="On-Air Companies">
+    <div class="marquee-lbl">On Air</div>
+    <div class="marquee" id="logoMarquee"></div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work" class="wrap">
+    <h2 class="sr-only">Work</h2>
+    <div class="work-grid" id="workList"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about">
+    <div class="wrap about-grid">
+      <div class="reveal">
+        <h2>I turn ideas into things people see, feel, and remember.</h2>
+        <p>Amir Anderson is a two-time Emmy Award&ndash;winning production designer whose work spans graphic design, motion design, broadcast graphics, branding, and scenic design. A Full Sail University graduate, he has worked across news, sports, and entertainment with some of the largest media companies.</p>
+        <p>He started his career at WarnerMedia, creating social and motion content for Bleacher Report, NBA TV, and NBA on TNT. From there, he moved into broadcast design and production with Warner Bros. Discovery, working with HLN and CNN on on-air graphics, motion packages, branding, scenic design, and visual storytelling.</p>
+        <p>Amir also enjoys building the systems behind the work. From templates and workflows to custom plugins and tools, he looks for ways to help creative teams work faster, stay consistent, and spend more time focusing on the ideas themselves. To him, the tooling and process are just as much a part of design as the final product.</p>
+        <p>He is always learning, exploring new ways of working, and trying to better understand the creative processes behind great work. He considers himself a student of design&mdash;always looking for something new to learn, build, and improve.</p>
+      </div>
+      <div class="reveal">
+        <div class="clients caps-block">
+          <div class="lbl">Capabilities</div>
+          <div class="caps">
+            <div class="cap-box" tabindex="0"><span class="cap-name">Adobe After Effects</span><span class="cap-desc">My daily driver for animated motion graphics and the other visual elements broadcast needs.</span></div>
+            <div class="cap-box" tabindex="0"><span class="cap-name">Adobe Photoshop</span><span class="cap-desc">For building style frames and prepping the layered artwork that feeds my animations.</span></div>
+            <div class="cap-box" tabindex="0"><span class="cap-name">Adobe Illustrator</span><span class="cap-desc">My home for vector logos, illustrated art for projects, and clean shape layers that stay crisp.</span></div>
+            <div class="cap-box" tabindex="0"><span class="cap-name">Cinema 4D</span><span class="cap-desc">What adds depth to my broadcast packages: building 3D animations, 3D typography, and dimensional elements.</span></div>
+            <div class="cap-box" tabindex="0"><span class="cap-name">Adobe Audition</span><span class="cap-desc">Where I mix audio and add sound effects so the animations hold up on air.</span></div>
+            <div class="cap-box" tabindex="0"><span class="cap-name">Adobe InDesign</span><span class="cap-desc">Where print layouts and presentation decks come together alongside my work.</span></div>
+            <div class="cap-box" tabindex="0"><span class="cap-name">MOGRTs</span><span class="cap-desc">How I give editors reusable Motion Graphics Templates they can drop straight into their timelines.</span></div>
+            <div class="cap-box" tabindex="0"><span class="cap-name">Adobe Premiere Pro</span><span class="cap-desc">Editing, cutting, and delivering final videos in the right codecs for broadcast.</span></div>
+            <div class="cap-box" tabindex="0"><span class="cap-name">Unreal Engine</span><span class="cap-desc">How I help build real-time graphics and virtual production setups that render live for broadcast.</span></div>
+            <div class="cap-box" tabindex="0"><span class="cap-name">Microsoft PowerPoint</span><span class="cap-desc">For clean pitch decks that communicate design direction to clients and producers.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLUGINS -->
+  <section id="plugins" class="wrap plugins">
+    <div class="plugins-head reveal">
+      <h2>Plugin Development</h2>
+      <p>Tools I build to help creative teams work faster, stay consistent, and spend more time on the ideas themselves.</p>
+    </div>
+    <div class="plugin-rail reveal">
+      <div class="plugin-track" data-plugin-track></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="wrap contact">
+    <h2 class="reveal">Let's talk</h2>
+    <p class="reveal">Open to collaboration and happy to answer any questions.</p>
+    <div class="reveal"><a class="btn" href="mailto:amirandersondesigns@gmail.com">Email</a></div>
+    <div class="socials reveal">
+      <a href="https://www.linkedin.com/in/amiranderson" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.behance.net/amiranderson" target="_blank" rel="noopener">Behance</a>
+      <a href="https://vimeo.com/amiranderson" target="_blank" rel="noopener">Vimeo</a>
+      <a href="https://amirandersondesigns.gumroad.com/" target="_blank" rel="noopener">Gumroad</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="f-inner">
+    <div class="f-l">© <span id="year"></span> Amir Anderson</div>
+    <div class="f-r">
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Project details">
+  <div class="modal-head"><button class="modal-back" id="modalBack"><span class="arr">←</span>All Work</button><button class="modal-close" id="modalClose">✕ Close</button></div>
+  <div class="modal-body" id="modalBody"></div>
+</div>
+
+<script>
+  const BEHANCE = 'https://mir-s3-cdn-cf.behance.net/projects/';
+  const src = p => (p.local ? '' : BEHANCE) + p.img;
+
+  /* ============================================================
+     PROJECT DATA (22 projects)
+     ============================================================ */
+  const projects = [
+    { title: 'Reel', client: 'Showreel', img: 'max_808_webp/1977ee243966713.Y3JvcCwxMzgwLDEwODAsMjcwLDA.png', color: '#ebe6d2', url: 'https://www.behance.net/gallery/243966713/Motion-Reel', videoFile: 'assets/reel.mp4', poster: 'assets/reel-poster.jpg', tags: ['Motion Reel', 'Motion Graphics', '2D Animation', '3D Animation'], desc: 'My reel showcases my experience in the industry and collaborative work with art directors and peers, refined through mentorship and revisions, to present my best creative work. It spans the projects I designed and animated for CNN, Bleacher Report, the NBA on TNT, HLN, and Turner Sports, from daily breaking-news graphics and full on-air packages to branded content, scenic design, and identity systems across news, sports, and entertainment.' },
+    { title: 'CNN This Morning', client: 'CNN', disc: 'Transitions & Scenic', img: 'assets/ctm/ctm-header.jpg', thumb: 'assets/ctm/ctm-header-thumb.webp', local: true, color: '#ebeb14', url: 'https://www.behance.net/gallery/225208343/CNN-This-Morning', tags: ['Scenic Design', 'Broadcast', 'Motion Graphics', '2D Animation'], desc: 'I collaborated with my creative director and art director on the rebranding of "CNN This Morning Weekend." I helped create the scenic background featuring the Atlanta skyline for Studio H and developed transitions for the broadcast. While working on the scenic design, we used panels of varying sizes to add dimension to the wall, incorporating blurred areas to enhance the visual appeal of the prominent buildings in the city. We also integrated 3D elements from the transitions into the walls, creating a cohesive design package for the broadcast.', transitions: [{ still: 'assets/ctm/ctm-cnn-still.jpg', video: 'assets/ctm/ctm-cnn.mp4' }, { still: 'assets/ctm/ctm-weekend-still.jpg', video: 'assets/ctm/ctm-weekend.mp4' }, { still: 'assets/ctm/ctm-kasie-still.jpg', video: 'assets/ctm/ctm-kasie.mp4' }], studio: { video: 'assets/ctm/studio-display.mp4', label: 'Scenic Design' }, credits: [{ name: 'Tim Jollett', role: 'Creative Director' }, { name: 'Ben Frank', role: 'Art Director' }, { name: 'Melanie Mickel', role: 'Senior Graphic Artist' }, { name: 'Amir Anderson', role: 'Production Designer' }] },
+    { title: 'HLN Morning Express Transitions', client: 'HLN', disc: 'Show Package', img: 'assets/me/main-transitions.webp', thumb: 'assets/me/main-transitions-thumb.webp', local: true, color: '#ebebeb', url: 'https://www.behance.net/gallery/225169553/HLN-Morning-Express-Transitions', tags: ['Broadcast', '2D Animation', '3D Animation', 'Cinema 4D'], desc: 'The Morning Express transitions concepts were created for Robin Meade\'s show. The goal was to have a main transition, a generic transition, and a secondary transition that could be played throughout the show\'s hours. During this project, I used After Effects and Cinema 4D to create the transitions. I used Cinema 4D for the 3D text and After Effects for the diagonal panels that wipe the logo and text in and out. I incorporated the show\'s colors and added different elements to give the transitions a more polished look. The 3D text had a blue overlay with blur, and I added a gradient effect with 2D text placed on the corners of the transition.', transitions: [{ still: 'assets/me/gen-still.png', video: 'assets/me/generic.mp4' }, { still: 'assets/me/main-still.jpg', video: 'assets/me/main.mp4' }, { still: 'assets/me/sec-still.png', video: 'assets/me/secondary.mp4' }], studio: { video: 'assets/me/footage.mp4', audio: true }, credits: [{ name: 'Sean Stanley', role: 'Creative Director' }, { name: 'Jeff Young', role: 'Art Director' }, { name: 'Amir Anderson', role: 'Production Designer' }] },
+    { title: 'Morning Express: Your Health Now Segment', client: 'HLN', disc: 'Show Package', img: 'assets/meh/main.webp', thumb: 'assets/meh/main-thumb.webp', local: true, color: '#6e9b99', url: 'https://www.behance.net/gallery/155129459/Morning-Express-Your-Health-Now-Segment', tags: ['Broadcast', 'Motion Graphics', '2D Animation'], desc: 'Your Health Now Segment on the 10 am Morning Express show relays health information from the CDC and World Health Organization to morning viewers. The team’s mission was to brand the segment while keeping it aligned with the show. We used 3D typography and a medical shield to add depth to the flat animation. Working alongside Art Director Jeff Young and Creative Director Sean Stanley, we produced the opening, transition, and other graphics for the segment.', media: [{ video: 'assets/meh/transition.mp4', label: 'Transition', audio: true }, { video: 'assets/meh/open.mp4', label: 'Open', audio: true }], gallery: ['assets/meh/img-1.jpg', 'assets/meh/img-2.jpg'], credits: [{ name: 'Sean Stanley', role: 'Creative Director' }, { name: 'Jeff Young', role: 'Art Director' }, { name: 'Amir Anderson', role: 'Production Designer' }] },
+    { title: 'HLN War Over Words', client: 'HLN', disc: 'Show Package', img: 'assets/depp/text.webp', thumb: 'assets/depp/text-thumb.webp', local: true, noCover: true, color: '#142b52', url: 'https://www.behance.net/gallery/225096987/HLN-War-Over-Words', tags: ['Broadcast', 'Motion Graphics', 'Photoshop', 'After Effects'], desc: 'While creating this promo for headline news, I collaborated with my art director, Jeff Young, and senior graphic designer Sean O’Neill. We created transitions, in and out bumps, and a Monfill "monitor wall". My responsibilities included using Photoshop’s pen tool to cut out Johnny Depp &amp; Amber Heard images and working on the animation in After Effects. I incorporated the typography layout from the senior graphic designer and closely worked alongside producers and my art director to ensure that all the necessary elements were uploaded into our distribution systems for the control room team to broadcast.', mediaTop: [{ image: 'assets/depp/trans.webp' }], media: [{ image: 'assets/depp/text.webp' }, { video: 'assets/depp/transition.mp4', label: 'Transition', audio: true }, { video: 'assets/depp/monfill.mp4', label: 'Monfill', audio: true }, { videos: [{ video: 'assets/depp/bump-in.mp4', label: 'Bump In', audio: true }, { video: 'assets/depp/bump-out.mp4', label: 'Bump Out', audio: true }] }], credits: [{ name: 'Sean Stanley', role: 'Creative Director' }, { name: 'Jeff Young', role: 'Art Director' }, { name: 'Sean O’Neill', role: 'Senior Graphics Designer' }, { name: 'Amir Anderson', role: 'Production Designer' }] },
+    { title: 'Bleacher Report: Can You Really? Run a Mile In Crocs', client: 'Bleacher Report', disc: 'Branding Package', img: 'assets/crocs/comp-1.jpg', thumb: 'assets/crocs/comp-1-thumb.webp', local: true, color: '#248623', url: 'https://www.behance.net/gallery/225012235/Bleacher-Report-Can-You-Really-Run-a-Mile-In-Crocs', tags: ['Branded Content', 'Motion Graphics', 'Brand Identity', 'Video Editing'], desc: '"Can You Really?" is an original series by Bleacher Report Kicks featuring @JeremyJonesNeverFold. In this episode, he runs a mile while wearing Crocs. The goal of this project was to create a design that is playful and colorful, much like Crocs, with a bouncy animation style that would keep the video engaging for our target audience.', studio: { video: 'assets/crocs/crocs.mp4', audio: true, label: 'YouTube Social Post' }, gallery: ['assets/crocs/comp-2.jpg', 'assets/crocs/comp-3.jpg', 'assets/crocs/comp-4.jpg', 'assets/crocs/comp-5.jpg'], clips: ['assets/crocs/clip-closeup.mp4', 'assets/crocs/clip-closeup-logo.mp4', 'assets/crocs/clip-stairs.mp4', 'assets/crocs/clip-textinfo.mp4', 'assets/crocs/clip-title1.mp4', 'assets/crocs/clip-transition.mp4'], credits: [{ name: 'LaShea Echols &amp; Patrick Rossano', role: 'Creative Directors' }, { name: 'Ann Lutzenkirchen &amp; Chandler Traub', role: 'Sr. Producers' }, { name: 'Odni Lim &amp; Amir Anderson', role: 'Artists' }, { name: 'Jennie Sharp', role: 'Project Manager' }] },
+    { title: 'Bleacher Report: Gaming', client: 'Bleacher Report', disc: 'Show Branding', img: 'assets/br-gaming/halloween-1.webp', thumb: 'assets/br-gaming/halloween-1-thumb.webp', local: true, color: '#7e6df1', url: 'https://www.behance.net/gallery/154287259/T-Pain-Bleacher-Report-Gaming-Halloween', tags: ['Gaming', '2D Animation', 'Broadcast', 'After Effects'], desc: 'The Bleacher Report 100x100 Gaming project is a promotional animation for Halloween to spread the word to gamers who are fans of Bleacher Report that they could win 100 prizes in 100 minutes.', studio: { video: 'assets/br-gaming/halloween.mp4', audio: true }, galleryStack: true, gallery: ['assets/br-gaming/halloween-2.webp', 'assets/br-gaming/halloween-3.webp', 'assets/br-gaming/halloween-4.webp'], credits: [{ name: 'Amir Anderson', role: 'Motion Designer' }, { name: 'Michael Kaplan', role: 'Producer' }, { name: 'Ellie Davis', role: 'Voice Talent' }, { name: 'Brandon Raona', role: 'Sound Designer' }, { name: 'T-Pain', role: 'Host / Announcer' }] },
+    { title: 'The Match Golf Tournament 2021 Promotional', client: 'Bleacher Report', disc: 'Promotional Campaign', img: 'assets/match/style-2.webp', thumb: 'assets/match/style-2-thumb.webp', local: true, color: '#42768b', url: 'https://www.behance.net/gallery/154287877/The-Match-Golf-Tournament-2021-Promotional', tags: ['Sports Design', 'Promo', 'Motion Graphics', '2D Animation'], desc: 'The Match Golf tournament is a video mixed with 2D and 3D graphics to relay pieces of information to golf fans through art. The team created golf tracers, ball speed trackers, and more. To give the video an exciting feeling while viewers watch a PGA Tour Player hit golf balls at the Wynn Las Vegas.', media: [{ video: 'assets/match/main.mp4', label: 'Animation', audio: true }], gallery: ['assets/match/521-yards.webp', 'assets/match/style-1.webp'], credits: [{ name: 'LaShea Echols', role: 'Creative Director' }, { name: 'Patrick Rossano', role: 'Art Director' }, { name: 'Jennie Sharp', role: 'Project Manager' }, { name: 'Matt Mansfield', role: 'Filmer &amp; Editor' }, { name: 'Odni Lim &amp; Amir Anderson', role: 'Graphic Artist &amp; Animation' }, { name: 'Chandler Traub, Ann Lutzenkirchen, and Morgan Allison', role: 'Producers' }] },
+    { title: 'BR GridIron Workout Week Champion', client: 'Bleacher Report', disc: 'Social Campaign', img: 'assets/gridiron/cover.jpg', thumb: 'assets/gridiron/cover-thumb.webp', local: true, color: '#272920', url: 'https://www.behance.net/gallery/128621913/BR-GridIron-Workout-Week-Champion', tags: ['Sports Design', 'Motion Graphics', '2D Animation', 'Branded Content'], desc: 'The Bleacher Report social team at WarnerMedia approached me to create an NFT trophy loop animation for a weekly workout challenge for NFL athletes to engage with their fans during the offseason. Every week fans could vote on social media to decide which player\'s workouts deserved the trophy. I designed, animated, and composited everything myself into this proof of concept video for the team.', media: [{ video: 'assets/gridiron/v1.mp4', label: 'Instagram Social Post', audio: true }, { video: 'assets/gridiron/v2.mp4', label: 'Instagram Social Post', audio: true }], titleFirst: true, credits: [{ name: 'LaShea Echols', role: 'Creative Directors' }, { name: 'Chandler Traub', role: 'Sr. Producers' }, { name: 'Amir Anderson', role: 'Artists' }, { name: 'Jennie Sharp', role: 'Project Manager' }] },
+    { title: 'CNN Audie Cornish Concept Pitch', client: 'CNN', disc: 'Show Open & Branding', img: 'assets/cnnaudio/concept-1.jpg', thumb: 'assets/cnnaudio/concept-1-thumb.webp', local: true, color: '#d4cccd', url: 'https://www.behance.net/gallery/224984931/CNN-Audie-Cornish-Concept-Pitch', tags: ['Broadcast', 'Motion Graphics', 'Art Direction', '2D Animation'], desc: 'This personal project aimed to combine two CNN audio podcasts, "The Daily D.C." and "The Assignment with Audie Cornish," and create an introductory animation for the show. I wanted to create a design that reflects how most people around the world typically get their news and information. When designing the style frames, I chose to adopt a traditional newspaper appearance and included images of people strolling around the DC monuments to give the design an approachable feel. When creating the intro, I used a lower frame rate and added some expressions to give the animation a stop-motion speed during the podcast introduction.', studio: { video: 'assets/cnnaudio/podcast.mp4', audio: true, label: 'Open' }, gallery: ['assets/cnnaudio/concept-2.jpg', 'assets/cnnaudio/concept-3.jpg'], credits: [{ name: 'Amir Anderson', role: 'Production Designer' }, { name: 'Tim Jollett', role: 'Creative Director' }, { name: 'Ben Frank', role: 'Art Director' }, { name: 'Alicia Jack', role: 'Production Manager' }] },
+    { title: 'Fields Exterior UI and UX Design', client: 'Fields Exterior', disc: 'Product Design', img: 'assets/fields/cover.webp', thumb: 'assets/fields/cover-thumb.webp', local: true, noCover: true, credit: { role: 'Production Designer', name: 'Amir Anderson' }, extraLink: { label: 'UX/UI Certification — Coursera', url: 'https://www.coursera.org/account/accomplishments/professional-cert/GJ32BUMGLPD5?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=prof' }, color: '#5e5e14', url: 'https://www.behance.net/gallery/191235827/Fields-Exterior-UI-UX-Design', tags: ['UI/UX', 'Figma', 'Product Design', 'Prototype'], desc: '', process: ['assets/fields/mockup.webp', 'assets/fields/mockup-03.webp', 'assets/fields/presentation-03.webp', 'assets/fields/presentation-04.webp', 'assets/fields/presentation-02.webp', 'assets/fields/presentation-10.webp', 'assets/fields/presentation-01.webp', 'assets/fields/mockup-02.webp', 'assets/fields/presentation-13.webp', 'assets/fields/presentation-05.webp', 'assets/fields/presentation-11.webp', 'assets/fields/presentation-07.webp', 'assets/fields/presentation-12.webp', 'assets/fields/presentation-08.webp', 'assets/fields/presentation-06.webp'], embed: { url: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FxsuiJLOxs7rq1qtykvq1TX%2F2024_AmirAnderson_GoogleUICertification_ExteriorMaintenanceProject%3Ftype%3Ddesign%26node-id%3D1-291%26t%3DERwMLppCYuvt5x9E-1%26scaling%3Dscale-down%26page-id%3D0%253A1%26starting-point-node-id%3D1%253A291%26show-proto-sidebar%3D1%26mode%3Ddesign', label: 'Interactive Prototype' } },
+    { title: 'NCAA March Madness Final Four Advance', client: 'Turner Sports', disc: 'Social Media Campaign', img: 'assets/ncaa/intro.webp', thumb: 'assets/ncaa/intro-thumb.webp', local: true, color: '#141414', url: 'https://www.behance.net/gallery/177234673/2023-NCAA-March-Madness-Final-Four-Advance', tags: ['Sports Design', 'Broadcast', 'Motion Graphics', '2D Animation'], desc: 'I was tasked with reworking the 2023 March Madness Final Four template. The goal of the five-second animation is to display the teams that are advancing to the national championship on the Marchmadnessmbb social channels.', media: [{ video: 'assets/ncaa/fau.mp4', label: 'Twitter/X Social Post', audio: true }, { video: 'assets/ncaa/unconn.mp4', label: 'Twitter/X Social Post', audio: true }], credits: [{ name: 'Chandler Traub', role: 'Sr. Producer' }, { name: 'LaShea Echols', role: 'Creative Director' }, { name: 'Jennie Sharp', role: 'Project Manager' }, { name: 'Amir Anderson', role: 'Motion Graphics Artist' }] },
+    { title: 'CNN Town Hall', client: 'CNN', disc: 'Transitions and Bumps Package', img: 'assets/townhall/cover.webp', thumb: 'assets/townhall/cover-thumb.webp', local: true, color: '#112036', url: 'https://www.behance.net/gallery/169958071/CNN-Town-Hall', tags: ['Broadcast', 'Motion Graphics', '2D Animation', 'Scenic'], desc: 'I collaborated with senior production designers on this project; I was responsible for the animated transitions and bumps. To help tie everything together, I incorporated aspects of the studio design and established them in my animation. We created a globe animation to represent the worldwide stories the Town Hall features and implemented a display for visual imagery to be added for future topics.', media: [{ video: 'assets/townhall/bump-in.mp4', label: 'Bump In', audio: true }, { video: 'assets/townhall/bump-out.mp4', label: 'Bump Out', audio: true }, { videos: [{ video: 'assets/townhall/transition.mp4', label: 'Transition', audio: true }, { video: 'assets/townhall/generic.mp4', label: 'Transition' }] }, { videos: [{ video: 'assets/townhall/world1.mp4', label: 'Generic Transitions' }, { video: 'assets/townhall/world1-wb.mp4', label: 'Generic Transitions' }, { video: 'assets/townhall/world2.mp4', label: 'Generic Transitions' }, { video: 'assets/townhall/world2-wb.mp4', label: 'Generic Transitions' }] }, { video: 'assets/townhall/footage.mp4', label: 'On-Air Graphics', audio: true }] },
+    { title: 'Atlanta Braves 150th Anniversary', client: 'Atlanta Braves', disc: 'On-Air Open', img: 'assets/braves/cover.webp', thumb: 'assets/braves/cover-thumb.webp', local: true, color: '#1414eb', url: 'https://www.behance.net/gallery/167990349/Atlanta-Braves-150th-Anniv-Players-Introduction', tags: ['Sports Design', 'Motion Graphics', '2D Animation', 'After Effects'], desc: 'At the beginning of the 2020 MLB season, the Braves organization wanted the players to have a walkout introduction for the team anniversary. My role was to create transitions that revealed footage of the players and replicate textures from the team’s dugout walls. I worked primarily on the 2D elements combining the footage to create a unique look for the anniversary.', studio: { video: 'assets/braves/introduction.mp4', audio: true, label: 'Open Intro Walk Out' }, gallery: ['assets/braves/style-3.webp', 'assets/braves/style-1.webp', 'assets/braves/style-2.webp', 'assets/braves/end.webp'], credits: [{ name: 'Amir Anderson', role: 'Motion Graphics Artist' }, { name: 'Todd Walker', role: 'Voice Talent' }] },
+    { title: 'Forensic Files II S2 Bug Takeover', client: 'Forensic Files II', disc: 'On-Air Graphics', img: 'assets/ffs2/cover.jpg', thumb: 'assets/ffs2/cover-thumb.webp', local: true, color: '#101573', url: 'https://www.behance.net/gallery/160443767/Forensic-Files-II-S2-Bug-Takeover-Promotional', tags: ['Promo', 'Motion Graphics', '2D Animation', 'After Effects'], desc: 'For the launch of the second season of Forensic Files II, we were tasked with creating promotional content that informs viewers about the newest season. I worked alongside Creative Director Sean Stanley &amp; Art Director Jeff Young to build bug takeovers to be used on air during HLN true-crime programming. We used After Effects, Photoshop, and Plugins such as Red Giant and Boris FX.', media: [{ video: 'assets/ffs2/blue.mp4', label: 'Animation', audio: true }, { video: 'assets/ffs2/purple.mp4', label: 'Animation', audio: true }], gallery: ['assets/ffs2/blue.jpg', 'assets/ffs2/purple.jpg'] },
+    { title: 'Forensic Files II Bug Takeover and PopUp', client: 'Forensic Files II', disc: 'On-Air Graphics', img: 'assets/ffpopup/cover.jpg', thumb: 'assets/ffpopup/cover-thumb.webp', local: true, color: '#5431bc', url: 'https://www.behance.net/gallery/160292025/Forensic-Files-II-Bug-Takeover-PopUp-Promotional', tags: ['Promo', 'Motion Graphics', '2D Animation', 'After Effects'], desc: 'Forensic Files II Bug Takeover &amp; PopUp hides the channel logo for a few seconds to promote the third season of FFII. We incorporated evidence that forensic scientists used throughout the series into the promos.', media: [{ image: 'assets/ffpopup/promo.png' }, { video: 'assets/ffpopup/bugtakeover.mp4', label: 'Animation', audio: true }, { video: 'assets/ffpopup/popup.mp4', label: 'Animation', audio: true }] },
+    { title: 'The Match III B/R Graphics', client: 'Bleacher Report', disc: 'Promotional Campaign', img: 'assets/match3/logo.webp', thumb: 'assets/match3/logo-thumb.webp', local: true, color: '#61713f', url: 'https://www.behance.net/gallery/128620787/The-Match-III-BR-Graphics', tags: ['Sports Design', 'Broadcast', 'Motion Graphics', '2D Animation'], desc: 'The Match is a head-to-head golf challenge that broadcast on TNT and Bleacher Report’s website. This was the first big project I was tasked with doing at WarnerMedia. My job was to animate lower thirds for an introduction to the holes at the Grand Canyon Golf Course. While working on this project, I had the chance to learn how to deliver to EVS and use various codecs for broadcast. After finishing this project, I decided to go back to it and make it into a personal project. I created an animated intro, transitions, head-to-head graphics with the players, and added sound effects to bring the video together as one.', media: [{ video: 'assets/match3/main.mp4', label: 'Animation', audio: true }], gallery: ['assets/match3/manning.webp', 'assets/match3/barkley.webp'], credits: [{ name: 'LaShea Echols', role: 'Art Director' }, { name: 'Jennie Sharp', role: 'Project Manager' }, { name: 'Amir Anderson', role: 'Artist &amp; Animation' }, { name: 'Chandler Traub', role: 'Producer' }] },
+    { title: 'NHL Toronto Maple Leaf Promotional', client: 'NHL', disc: 'Motion Campaign', img: 'assets/nhl/style.webp', thumb: 'assets/nhl/style-thumb.webp', local: true, color: '#8294cb', url: 'https://www.behance.net/gallery/128622387/NHL-Toronto-Maple-Leaf-Hype-Promo', tags: ['Sports Design', 'Motion Graphics', '2D Animation', 'After Effects'], desc: 'This Toronto Maple Leaf video was a personal project that I worked on to learn more about hockey to prepare myself to work on “TNT on NHL” and “Bleacher Report on Ice” before the season started. I wanted to get better at expressions in After Effects and used some code to make my workflow quicker. I decided I wanted the animation style of the video to be stop motion with textures overlaid on the footage to give the animation more movement to capture the audience’s eyes.', media: [{ video: 'assets/nhl/main.mp4', label: 'Social Post', audio: true }], credits: [{ name: 'Chandler Traub', role: 'Sr. Producer' }, { name: 'LaShea Echols', role: 'Creative Director' }, { name: 'Amir Anderson', role: 'Motion Graphics Artist' }] },
+    { title: 'Fix n’ Fly', client: 'Fix n’ Fly', disc: 'Motion Design', img: 'assets/fixnfly/cover.webp', thumb: 'assets/fixnfly/cover-thumb.webp', local: true, color: '#8b6959', url: 'https://www.behance.net/gallery/98731033/Fix-n-Fly', tags: ['Explainer', 'Motion Graphics', '2D Animation', 'After Effects'], desc: 'This animation is for a company located in Tampa, Florida called Fix n’ Fly. My process of making this explainer video was to design an intro for their four-step process so that customers could have a more enjoyable understanding of what Fix ‘n Fly provides.', media: [{ video: 'assets/fixnfly/main.mp4', label: 'Animation', audio: true }], sketches: ['assets/fixnfly/sketch-1.webp', 'assets/fixnfly/sketch-2.webp', 'assets/fixnfly/sketch-3.webp'], sketchesCols: 3, gallery: ['assets/fixnfly/style-1.webp', 'assets/fixnfly/style-2.webp', 'assets/fixnfly/style-3.webp'], galleryCols: 3, credits: [{ name: 'Joel Sink and Dan Walker', role: 'Creative Directors' }, { name: 'Chris Gaynor', role: 'Art Director' }, { name: 'Amir Anderson', role: 'Motion Graphics Artist' }, { name: 'Tom Haney', role: 'Voiceover Talent' }] },
+    { title: 'The Tile App', client: 'Tile', disc: 'Motion Design', img: 'assets/tile/sb-3.webp', thumb: 'assets/tile/sb-3-thumb.webp', local: true, color: '#e8eaeb', url: 'https://www.behance.net/gallery/98615051/The-Tile-App', tags: ['Product Design', 'Motion Graphics', '2D Animation', 'Advertising'], desc: 'The content I produced is an advertising animation for The Tile App. The animation informs The Tile App customers that a new product is being released for luggage.', media: [{ video: 'assets/tile/main.mp4', label: 'Animation', audio: true }], gallery: ['assets/tile/sb-2.webp', 'assets/tile/sb-1.webp', 'assets/tile/sb-6.webp'], galleryCols: 3, credits: [{ name: 'Joel Sink and Dan Walker', role: 'Creative Directors' }, { name: 'Chris Gaynor', role: 'Art Director' }, { name: 'Amir Anderson', role: 'Motion Graphics Artist' }, { name: 'Todd Walker', role: 'Voice Talent' }] },
+    { title: 'Tyshawn Jones Advertisement', client: 'adidas', disc: 'Advertisement', img: 'assets/tyshawn/2.webp', thumb: 'assets/tyshawn/2-thumb.webp', local: true, color: '#cbc9c6', url: 'https://www.behance.net/gallery/101354485/Tyshawn-Jones-Advertisement', tags: ['Branded Content', 'Motion Graphics', '2D Animation', 'Sports Design'], desc: 'Tyshawn Jones\'s signature shoe advertisement welcomes the Bronx-born skateboarder to the Adidas Team. Inspired by basketball sneakers but rooted in skateboarding, the animation showcases one of the hottest young riders in the industry. I included photos of the shoes and Tyshawn throughout the animation to reflect the purpose of the ad. The target audience is skateboarders in New York City, ages thirteen to twenty-one. I used hard, jarring movements that were aggressive to mirror Tyshawn\'s skating style, but I also added bouncy, playful motions to balance out the hard cuts. Animated typography let me work in the Adidas EVA midsole, which cushions against the impact of hard riding.', media: [{ video: 'assets/tyshawn/main.mp4', label: 'Social Post', audio: true }], gallery: ['assets/tyshawn/1.webp', 'assets/tyshawn/3.webp'], credits: [{ name: 'Joel Sink and Dan Walker', role: 'Creative Directors' }, { name: 'Chris Gaynor', role: 'Art Director' }, { name: 'Amir Anderson', role: 'Motion Graphics Artist' }] },
+    { title: 'Dame Lillard Bubble MVP Promotional', client: 'Bleacher Report', disc: 'Season Highlights Graphics', img: 'assets/dame/style-2.webp', thumb: 'assets/dame/style-2-thumb.webp', local: true, color: '#2d2524', url: 'https://www.behance.net/gallery/128619909/Dame-Lillard-Bubble-MVP-Promo', tags: ['Sports Design', 'Promo', 'Motion Graphics', '2D Animation'], desc: 'This was a promo to celebrate Dame Lillard’s incredible MVP performance in the 2020 NBA Play-Offs bubble. I was responsible for all the animations/graphics in this spot.', media: [{ video: 'assets/dame/main.mp4', label: 'Social Post', audio: true }], gallery: ['assets/dame/style-3.webp', 'assets/dame/style-1.webp', 'assets/dame/style-4.webp'], galleryCols: 3, credits: [{ name: 'Chandler Traub', role: 'Sr. Producer' }, { name: 'LaShea Echols', role: 'Creative Director' }, { name: 'Amir Anderson', role: 'Motion Graphics Artist' }] },
+    { title: 'LeBron James Championship Promotional', client: 'NBA TV', disc: 'Championship Highlights Graphics', img: 'assets/lebron/king-1.webp', thumb: 'assets/lebron/king-1-thumb.webp', local: true, color: '#d46d32', url: 'https://www.behance.net/gallery/128620417/LeBron-James-Championship-Promo', tags: ['Sports Design', 'Promo', 'Motion Graphics', '2D Animation'], desc: 'This project was created for NBA TV social media. During LeBron and the Lakers’ championship win in the 2020 NBA Finals, after the season ended, I decided to contribute more graphic elements to the video I edited; I created some custom illustrations and graphics around LeBron to show aspects of the season and tell a story throughout the video.', media: [{ video: 'assets/lebron/main.mp4', label: 'Social Post', audio: true }], gallery: ['assets/lebron/king-2.webp'], galleryStack: true, credits: [{ name: 'Chandler Traub', role: 'Sr. Producer' }, { name: 'LaShea Echols', role: 'Creative Director' }, { name: 'Amir Anderson', role: 'Motion Graphics Artist' }] },
+  ];
+
+  const reel = projects.find(p => p.videoFile);
+  const rest = projects.filter(p => !p.videoFile);
+
+  // Futura fallback for characters blanked out in the Organetto demo font
+  const fx = s => s.replace(/[&!$@%#"\'()*+\-/=<>\[\]^_`{|}~\\×—–·]/g, m => `<span class="amp">${m}</span>`);
+
+  /* ============================================================
+     REEL
+     ============================================================ */
+  document.getElementById('reelBox').innerHTML = `
+    <div class="reel-video">
+      <video class="reel-video-el" src="${reel.videoFile}" muted autoplay loop playsinline controls preload="metadata" poster="${reel.poster || src(reel)}" data-title="${reel.title}"></video>
+      <button class="sound-toggle" aria-label="Enable audio" aria-pressed="false"><span class="st-off">Tap for sound</span><span class="st-on">Mute</span></button>
+    </div>`;
+
+  (function () {
+    const rv = document.querySelector('#reel .reel-video-el');
+    const st = document.querySelector('#reel .sound-toggle');
+    if (rv) {
+      rv.addEventListener('error', () => {
+        const img = document.createElement('img');
+        img.src = rv.poster; img.alt = rv.getAttribute('data-title') || '';
+        rv.replaceWith(img);
+        if (st) st.remove();
+      });
+      if (st) {
+        st.addEventListener('click', e => {
+          e.stopPropagation();
+          rv.muted = !rv.muted;
+          st.classList.toggle('is-on', !rv.muted);
+          st.setAttribute('aria-pressed', String(!rv.muted));
+        });
+      }
+    }
+  })();
+
+  /* ============================================================
+     ON-AIR LOGO MARQUEE
+     ============================================================ */
+  const logos = [
+    ['assets/logos/cnn.png?v=2', 'CNN'],
+    ['assets/logos/wbd.png?v=2', 'Warner Bros. Discovery'],
+    ['assets/logos/nba-on-tnt.png?v=3', 'NBA on TNT'],
+    ['assets/logos/bleacher-report.png?v=3', 'Bleacher Report'],
+    ['assets/logos/nbatv.png?v=2', 'NBA TV'],
+    ['assets/logos/hln.png?v=3', 'HLN'],
+    ['assets/logos/turner-sports.png?v=2', 'Turner Sports'],
+  ];
+  const logoHTML = logos.map(([s, a]) => `<img src="${s}" alt="${a}" loading="eager" decoding="async">`).join('');
+  const logoGroup = logoHTML + logoHTML;
+  document.getElementById('logoMarquee').innerHTML = `
+    <div class="marquee-track">
+      <div class="marquee-group">${logoGroup}</div>
+      <div class="marquee-group" aria-hidden="true">${logoGroup}</div>
+    </div>`;
+
+  /* ============================================================
+     WORK GRID
+     ============================================================ */
+  document.getElementById('workList').innerHTML = rest.map((p, i) => `
+    <article class="card" style="--i:${i}" data-url="${p.url}" role="button" tabindex="0" aria-haspopup="dialog" aria-label="${p.title}">
+      <div class="thumb"><span class="idx">${String(i+1).padStart(2,'0')}</span><img src="${p.thumb || src(p)}" alt="${p.title}" loading="lazy"${p.coverContain ? ' class="contain"' : ''}></div>
+      <div class="card-meta">
+        <div class="title">${fx(p.title)}<span class="arr">→</span></div>
+        <div class="sub">${p.disc}</div>
+      </div>
+    </article>`).join('');
+
+  /* ============================================================
+     MODAL
+     ============================================================ */
+  const modal = document.getElementById('modal');
+  const modalBody = document.getElementById('modalBody');
+  const MV_ICONS = {
+    play: '<svg viewBox="0 0 24 24" class="i-play"><path d="M8 5v14l11-7z"/></svg>',
+    pause: '<svg viewBox="0 0 24 24" class="i-pause"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>'
+  };
+  function videoBlock(src, label, hasAudio) {
+    const lbl = label ? `<figcaption class="media-label">${label}</figcaption>` : '';
+    return `<figure class="mvideo">
+      ${lbl}
+      <div class="mvideo-frame">
+        <video src="${src}" muted loop playsinline preload="metadata"${hasAudio ? ' data-audio="1"' : ''}></video>
+        ${hasAudio ? `<button class="sound-toggle mvideo-sound" data-act="sound" aria-label="Enable audio" aria-pressed="false"><span class="st-off">Tap for sound</span><span class="st-on">Mute</span></button>` : ''}
+        <div class="mvideo-ctl">
+          <button class="mv-btn mv-play" data-act="play" aria-label="Play / Pause" title="Play / Pause">${MV_ICONS.play}${MV_ICONS.pause}</button>
+        </div>
+      </div>
+    </figure>`;
+  }
+  function imgBlock(src, p, label) {
+    const lbl = label ? `<figcaption class="media-label">${label}</figcaption>` : '';
+    return `<figure class="mimg">${lbl}<img src="${src}" alt="${p.title}" loading="lazy"></figure>`;
+  }
+  function mediaBlock(m, p) {
+    if (m.images) return `<div class="modal-gallery">${m.images.map(g => imgBlock(g, p, 'Style Frames')).join('')}</div>`;
+    if (m.image) return `<div class="modal-studio">${imgBlock(m.image, p, m.label || 'Style Frames')}</div>`;
+    if (m.video) return `<div class="modal-studio">${videoBlock(m.video, m.label || 'Animation', m.audio)}</div>`;
+    if (m.videos) return `<div class="modal-clips">${m.videos.map(v => typeof v === 'string' ? videoBlock(v, 'Animation') : videoBlock(v.video, v.label || 'Animation', v.audio)).join('')}</div>`;
+    return '';
+  }
+  function embedBlock(e, p) {
+    const lbl = e.label ? `<figcaption class="media-label">${e.label}</figcaption>` : '';
+    return `<figure class="membed">${lbl}<div class="modal-embed"><iframe src="${e.url}" title="${e.label || p.title}" allowfullscreen loading="lazy" sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe></div></figure>`;
+  }
+  function processBlock(p) {
+    return `<div class="modal-diagonal-wrap"><h4 class="media-label">Design Process</h4><div class="modal-diagonal">${p.process.map((img, i) => `<figure class="diag" style="--d:${i}"><img src="${img}" alt="${p.title} process ${i + 1}" loading="lazy"></figure>`).join('')}</div></div>`;
+  }
+  function suggestions(p, count) {
+    count = count || 3;
+    return rest
+      .filter(q => q !== p)
+      .map(q => {
+        let score = 0;
+        if (q.client === p.client) score += 5;
+        const shared = (p.tags || []).filter(t => (q.tags || []).includes(t)).length;
+        score += shared * 2;
+        return { q, score };
+      })
+      .sort((a, b) => b.score - a.score)
+      .slice(0, count)
+      .map(x => x.q);
+  }
+  const lazyVideos = new IntersectionObserver(es => {
+    es.forEach(en => {
+      const v = en.target;
+      if (en.isIntersecting) { const pr = v.play(); if (pr && pr.catch) pr.catch(() => {}); }
+      else v.pause();
+    });
+  }, { threshold: 0 });
+
+  function openModal(p) {
+    lazyVideos.disconnect();
+    modalBody.querySelectorAll('video').forEach(v => v.pause());
+    const sugg = suggestions(p);
+    modalBody.innerHTML = `
+      ${p.noCover ? '' : '<img class="modal-cover' + (p.wide ? ' wide' : '') + (p.coverContain ? ' contain' : '') + '" src="' + src(p) + '" alt="' + p.title + '">'}
+      ${p.mediaTop && p.mediaTop.length ? p.mediaTop.map(m => mediaBlock(m, p)).join('') : ''}
+      <h3 class="modal-title">${fx(p.title)}</h3>
+      ${p.desc ? `<p class="modal-desc">${p.desc}</p>` : ''}
+      ${p.process && p.process.length ? processBlock(p) : ''}
+      ${p.embed ? embedBlock(p.embed, p) : ''}
+      ${p.sketches && p.sketches.length ? `<div class="modal-gallery${p.sketchesCols === 3 ? ' cols3' : ''}">${p.sketches.map(g => imgBlock(g, p, 'Sketches')).join('')}</div>` : ''}
+      ${p.gallery && p.gallery.length ? `<div class="modal-gallery${p.galleryStack ? ' stack' : ''}${p.galleryCols === 3 ? ' cols3' : ''}">${p.gallery.map(g => imgBlock(g, p, 'Style Frames')).join('')}</div>` : ''}
+      ${p.media && p.media.length ? p.media.map(m => mediaBlock(m, p)).join('') : ''}
+      ${p.transitions && p.transitions.length ? `<div class="modal-transitions"><div class="trans-stills">${p.transitions.map(t => imgBlock(t.still, p, 'Style Frames')).join('')}</div><div class="trans-videos">${p.transitions.map(t => videoBlock(t.video, 'Transition')).join('')}</div></div>` : ''}
+      ${p.clips && p.clips.length ? `<div class="modal-clips">${p.clips.map(v => videoBlock(v, 'Animation')).join('')}</div>` : ''}
+      ${p.studio ? `<div class="modal-studio">${typeof p.studio === 'string' ? videoBlock(p.studio, 'Animation') : videoBlock(p.studio.video, p.studio.label || 'Animation', p.studio.audio)}</div>` : ''}
+      ${p.credits && p.credits.length ? `<div class="modal-credits"><h4>Credits</h4><ul>${p.credits.map(c => p.titleFirst ? `<li>${c.role} — <b>${c.name}</b></li>` : `<li><b>${c.name}</b> — ${c.role}</li>`).join('')}</ul></div>` : ''}
+      ${p.credit ? `<div class="modal-credits"><h4>Credits</h4><ul><li>${p.credit.role} — <b>${p.credit.name}</b></li></ul></div>` : ''}
+      ${(p.url && p.url.startsWith('http')) || p.extraLink ? `<div class="modal-links">
+        ${p.url && p.url.startsWith('http') ? `<a class="btn" href="${p.url}" target="_blank" rel="noopener">View on Behance</a>` : ''}
+        ${p.extraLink ? `<a class="modal-link-txt" href="${p.extraLink.url}" target="_blank" rel="noopener">${p.extraLink.label}</a>` : ''}
+      </div>` : ''}
+      ${sugg.length ? `<div class="modal-suggest">
+        <h4 class="suggest-label">Continue Exploring</h4>
+        <div class="suggest-grid">
+          ${sugg.map(q => `<button class="suggest-card" data-url="${q.url}"><span class="suggest-thumb"><img src="${q.thumb || src(q)}" alt="${q.title}" loading="lazy"></span><span class="suggest-title">${fx(q.title)}</span></button>`).join('')}
+        </div>
+      </div>` : ''}`;
+    modalBody.querySelectorAll('.mvideo-frame').forEach(wireVideo);
+    modalBody.querySelectorAll('video').forEach((v, i) => {
+      v.muted = true;
+      if (i === 0) { const pr = v.play(); if (pr && pr.catch) pr.catch(() => {}); }
+      else lazyVideos.observe(v);
+    });
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() { lazyVideos.disconnect(); modalBody.querySelectorAll('video').forEach(v => { v.pause(); v.muted = true; }); modal.classList.remove('open'); document.body.style.overflow = ''; }
+  function wireVideo(frame) {
+    const video = frame.querySelector('video');
+    const playBtn = frame.querySelector('.mv-play');
+    const soundBtn = frame.querySelector('.mvideo-sound');
+    if (!video) return;
+    const syncPlay = () => playBtn.classList.toggle('playing', !video.paused && !video.ended);
+    video.addEventListener('play', syncPlay);
+    video.addEventListener('pause', syncPlay);
+    syncPlay();
+    if (soundBtn) {
+      const syncSound = () => { soundBtn.classList.toggle('is-on', !video.muted); soundBtn.setAttribute('aria-pressed', String(!video.muted)); };
+      syncSound();
+      video.addEventListener('volumechange', syncSound);
+    }
+  }
+  function findByUrl(u) { return projects.find(x => x.url === u); }
+  modalBody.addEventListener('click', e => {
+    const btn = e.target.closest('.mv-btn, .mvideo-sound');
+    if (!btn) return;
+    const frame = btn.closest('.mvideo-frame');
+    const video = frame && frame.querySelector('video');
+    if (!video) return;
+    if (btn.dataset.act === 'play') {
+      if (video.paused) { video.play(); } else { video.pause(); }
+    } else if (btn.dataset.act === 'sound') {
+      video.muted = !video.muted;
+    }
+  });
+  modalBody.addEventListener('click', e => {
+    const sc = e.target.closest('.suggest-card');
+    if (!sc) return;
+    const q = findByUrl(sc.dataset.url);
+    if (q) { openModal(q); modal.scrollTop = 0; }
+  });
+  document.getElementById('workList').addEventListener('click', e => { const el = e.target.closest('.card'); if (el) openModal(findByUrl(el.dataset.url)); });
+  document.getElementById('workList').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { const el = e.target.closest('.card'); if (el) { e.preventDefault(); openModal(findByUrl(el.dataset.url)); } } });
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modalBack').addEventListener('click', () => { closeModal(); const w = document.getElementById('work'); if (w) w.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  /* ============================================================
+     REVEAL (IntersectionObserver)
+     ============================================================ */
+  const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+  const revealEls = document.querySelectorAll('.reveal');
+
+  /* ============================================================
+     PRELOADER / INTRO
+     ============================================================ */
+  const preloader = document.getElementById('preloader');
+  let introRan = false;
+  const introDone = () => {
+    if (introRan) return; introRan = true;
+    preloader.classList.add('done');
+    document.body.classList.add('intro-done');
+    revealEls.forEach(el => io.observe(el));
+  };
+  window.addEventListener('load', () => setTimeout(introDone, 1000));
+  setTimeout(introDone, 2000);
+
+  /* ============================================================
+     NAV
+     ============================================================ */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40), { passive: true });
+  const brandGlyph = document.querySelector('.brand .glyph');
+  brandGlyph.addEventListener('click', () => { brandGlyph.classList.remove('spin'); void brandGlyph.offsetWidth; brandGlyph.classList.add('spin'); });
+
+  /* ============================================================
+     MOBILE MENU
+     ============================================================ */
+  const burger = document.getElementById('burger'), mmenu = document.getElementById('mmenu');
+  burger.addEventListener('click', () => { const o = mmenu.classList.toggle('open'); document.body.style.overflow = o ? 'hidden' : ''; });
+  mmenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mmenu.classList.remove('open'); document.body.style.overflow = ''; }));
+
+  /* ============================================================
+     CUSTOM CURSOR
+     ============================================================ */
+  const dot = document.querySelector('.cursor-dot'), ring = document.querySelector('.cursor-ring');
+  let rx = -100, ry = -100, rdx = -100, rdy = -100;
+  document.addEventListener('mousemove', e => { rx = e.clientX; ry = e.clientY; dot.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`; });
+  (function rloop() { rdx += (rx - rdx) * 0.16; rdy += (ry - rdy) * 0.16; ring.style.transform = `translate(${rdx}px, ${rdy}px) translate(-50%,-50%)`; requestAnimationFrame(rloop); })();
+  document.querySelectorAll('a, button, .card, .reel-video').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('is-active'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('is-active'));
+  });
+
+  /* ============================================================
+     PLUGIN SHOWCASE
+     ============================================================ */
+  const pluginData = [
+    {
+      name: 'Motion Spell Checker',
+      short: 'Catch typos before they go on air — a spell-checking panel for After Effects.',
+      desc: 'It scans text layers, layer and composition names, marker comments, effect text fields, and quoted strings in expressions — then suggests corrections and replaces them with one click. Every scan can also draw a red outline around affected layers directly in the Composition viewer, on a non-rendering guide layer that never touches your work and is excluded from render.',
+      software: 'After Effects 2022+',
+      specs: ['Signed .zxp', 'CEP Panel', 'macOS & Windows'],
+      gifs: [
+        { src: 'assets/Motion-Spell-Checker-demo.gif', label: 'Walkthrough' },
+        { src: 'assets/Motion-Spell-Checker-settings.gif', label: 'Settings' },
+        { src: 'assets/Motion-Spell-Checker-verify-dictionary.gif', label: 'Dictionary' },
+        { src: 'assets/Motion-Spell-Checker-help.gif', label: 'Help' },
+        { src: 'assets/Motion-Spell-Checker-copy-report.gif', label: 'Copy Report' },
+      ],
+      features: [
+        'Flexible scope — scan the active comp, the entire project, selected layers, or selected comps.',
+        'Content filters — narrow the scan to text, expressions, effects, markers, or composition & layer names.',
+        'One-click Replace — ranked suggestions fix every occurrence of a misspelled word at once.',
+        'On-canvas highlighting — red outlines show exactly which layers need attention, without altering anything.',
+        '46 built-in dictionaries — ~30,000 words across specialized categories, plus an ~8,100-word fallback.',
+        'Custom dictionary — whitelist brand names, character names, and industry terms with one click.',
+      ],
+      steps: [
+        { t: 'Scan', d: 'pick a scope — Active Comp, Entire Project, Selected Layers, or Selected Comps — then click Scan' },
+        { t: 'Review', d: 'click a misspelled word to see its locations and ranked suggestions' },
+        { t: 'Fix / Ignore', d: 'click Replace to fix every occurrence at once, or Ignore / + Dictionary — always undoable' },
+        { t: 'Highlights', d: 'red outlines in the Composition viewer confirm every affected layer' },
+        { t: 'Copy Report', d: 'copy a plain-text QC summary for delivery or client sign-off' },
+      ],
+      install: 'Download the ZIP, then install the included Amir_Anderson_Motion_Spell_Checker.zxp with a free ZXP installer — ZXP Installer (aescripts.com/learn/zxp-installer) or Anastasiy\'s Extension Manager (install.anastasiy.com). Fully quit and reopen After Effects, then open Window → Extensions → Amir Anderson Motion Spell Checker. Works in After Effects 2022 and newer on macOS or Windows.',
+      included: ['Signed Amir_Anderson_Motion_Spell_Checker.zxp', '46 category dictionaries + fallback list', 'Built-in Help & Dictionary Status viewer'],
+      categories: [
+        'Commonly Misspelled Words',
+        'Science and Technology',
+        'Law and Justice',
+        'Medical and Healthcare',
+        'Journalism and Media',
+        'Government and Politics',
+        'Financial and Stock Market',
+        'Business and Corporations',
+        'Countries and Territories',
+        'Music and Performing Arts',
+        'Space and Astronomy',
+      ],
+      download: 'downloads/2026_Amir_Anderson_Motion_Spell_Checker.zip',
+      totalCategories: 46,
+      cta: 'Try the Plugin',
+      tint: '#6fa8da',
+      glyph: 'Aa',
+      mark: '&#10003;',
+    },
+  ];
+
+  const pluginShowcase = pl => `
+    <article class="plugin-card single" aria-label="${pl.name}">
+      <div class="ps-thumb">
+        <div class="ps-slides" role="group" aria-roledescription="carousel" aria-label="${pl.name} screenshots">
+          <div class="ps-stage">
+            <img class="ps-stage-img" src="${pl.gifs[0].src}" alt="${pl.name} — ${pl.gifs[0].label}" loading="lazy" decoding="async" width="420" height="820">
+          </div>
+          <div class="ps-slide-nav">
+            <button class="ps-arrow" type="button" data-ps-prev aria-label="Previous screenshot">←</button>
+            <div class="ps-slide-meta">
+              <span class="ps-slide-label" data-ps-label>${pl.gifs[0].label}</span>
+              <span class="ps-slide-count"><span data-ps-cur>1</span> / ${pl.gifs.length}</span>
+            </div>
+            <button class="ps-arrow" type="button" data-ps-next aria-label="Next screenshot">→</button>
+          </div>
+          <div class="ps-slide-dots" role="tablist" aria-label="Screenshot slides">
+            ${pl.gifs.map((g, i) => `<button class="ps-dot${i === 0 ? ' is-active' : ''}" type="button" data-ps-go="${i}" role="tab" aria-selected="${i === 0 ? 'true' : 'false'}" aria-label="${g.label}"></button>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="ps-info">
+        <span class="ps-eyebrow"><span class="ps-badge">Free</span><span class="ps-badge">${pl.software}</span></span>
+        <h3 class="ps-name">${pl.name}</h3>
+        <p class="ps-intro-text">${pl.short} ${pl.desc}</p>
+        <p class="ps-hint">Hover a topic to explore what's inside.</p>
+        <div class="ps-zones">
+          <button class="ps-zone" type="button" data-zone="features">Key Features</button>
+          <button class="ps-zone" type="button" data-zone="steps">How It Works</button>
+          <button class="ps-zone" type="button" data-zone="install">Install &amp; Included</button>
+          <button class="ps-zone" type="button" data-zone="cats">Dictionary Categories</button>
+        </div>
+        <div class="ps-reveal">
+          <div class="ps-panel" data-panel="features">
+            <ul class="ps-list">${pl.features.map(f => `<li>${f}</li>`).join('')}</ul>
+          </div>
+          <div class="ps-panel" data-panel="steps">
+            <ol class="ps-list ps-steps">${pl.steps.map(s => `<li><span>${s.t}</span>${s.d ? ' &mdash; ' + s.d : ''}</li>`).join('')}</ol>
+          </div>
+          <div class="ps-panel" data-panel="install">
+            <p class="ps-text">${pl.install}</p>
+            <p class="ps-text ps-text-sub">${pl.included.join(' &middot; ')}</p>
+          </div>
+          <div class="ps-panel" data-panel="cats">
+            <p class="ps-cats-text">The dictionary has these categories:</p>
+            <div class="ps-cats">
+              ${pl.categories.map(c => `<span class="ps-cat">${c}</span>`).join('')}
+              ${pl.totalCategories > pl.categories.length ? `<span class="ps-cats-more">and ${pl.totalCategories - pl.categories.length} more</span>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="ps-foot">
+          <a class="ps-cta" href="${pl.download}" download>${pl.cta}</a>
+          <span class="ps-specs">${pl.specs.join(' &middot; ')}</span>
+        </div>
+      </div>
+    </article>`;
+
+  const pluginTrack = document.querySelector('[data-plugin-track]');
+  if (pluginTrack) {
+    pluginTrack.classList.add('single');
+    pluginTrack.innerHTML = pluginShowcase(pluginData[0]);
+    const pzones = pluginTrack.querySelectorAll('.ps-zone');
+    const ppanels = pluginTrack.querySelectorAll('.ps-panel');
+    const preveal = pluginTrack.querySelector('.ps-reveal');
+    const panelHeights = {};
+    const measurePanels = () => {
+      ppanels.forEach(pn => {
+        const prevPos = pn.style.position, prevInset = pn.style.inset;
+        pn.style.position = 'static';
+        pn.style.inset = 'auto';
+        panelHeights[pn.dataset.panel] = pn.scrollHeight;
+        pn.style.position = prevPos;
+        pn.style.inset = prevInset;
+      });
+    };
+    measurePanels();
+    if (preveal) preveal.style.height = '220px';
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        measurePanels();
+        const active = pluginTrack.querySelector('.ps-panel.is-active');
+        if (active && preveal) preveal.style.height = (panelHeights[active.dataset.panel] || 220) + 'px';
+      }, 150);
+    });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        measurePanels();
+        const active = pluginTrack.querySelector('.ps-panel.is-active');
+        if (active && preveal) preveal.style.height = (panelHeights[active.dataset.panel] || 220) + 'px';
+      });
+    }
+    const pActivate = z => {
+      pzones.forEach(b => b.classList.toggle('is-active', b === z));
+      const n = z.dataset.zone;
+      ppanels.forEach(p => p.classList.toggle('is-active', p.dataset.panel === n));
+      if (preveal && panelHeights[n] != null) preveal.style.height = panelHeights[n] + 'px';
+    };
+    pzones.forEach(z => {
+      z.addEventListener('mouseenter', () => pActivate(z));
+      z.addEventListener('focus', () => pActivate(z));
+      z.addEventListener('click', () => pActivate(z));
+    });
+    const firstZone = pluginTrack.querySelector('.ps-zone');
+    if (firstZone) pActivate(firstZone);
+
+    // --- GIF slideshow ---
+    const slideImgs = pluginData[0].gifs || [];
+    const stageImg = pluginTrack.querySelector('.ps-stage-img');
+    const slideLabel = pluginTrack.querySelector('[data-ps-label]');
+    const slideCur = pluginTrack.querySelector('[data-ps-cur]');
+    const slideDots = pluginTrack.querySelectorAll('[data-ps-go]');
+    slideImgs.forEach(g => { const im = new Image(); im.src = g.src; }); // preload all slides
+    let slideIdx = 0;
+    const showSlide = i => {
+      if (!stageImg || !slideImgs.length) return;
+      slideIdx = (i + slideImgs.length) % slideImgs.length;
+      const g = slideImgs[slideIdx];
+      stageImg.classList.add('is-switching');
+      setTimeout(() => {
+        stageImg.src = g.src;
+        stageImg.alt = `${pluginData[0].name} — ${g.label}`;
+        stageImg.classList.remove('is-switching');
+      }, 250);
+      if (slideLabel) slideLabel.textContent = g.label;
+      if (slideCur) slideCur.textContent = String(slideIdx + 1);
+      slideDots.forEach((t, idx) => {
+        const on = idx === slideIdx;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', String(on));
+      });
+    };
+    const psPrev = pluginTrack.querySelector('[data-ps-prev]');
+    const psNext = pluginTrack.querySelector('[data-ps-next]');
+    if (psPrev) psPrev.addEventListener('click', () => showSlide(slideIdx - 1));
+    if (psNext) psNext.addEventListener('click', () => showSlide(slideIdx + 1));
+    slideDots.forEach(t => t.addEventListener('click', () => showSlide(Number(t.dataset.psGo))));
+  }
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
