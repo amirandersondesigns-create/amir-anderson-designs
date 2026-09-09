@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://amirandersondesigns.com/sitemap.xml
