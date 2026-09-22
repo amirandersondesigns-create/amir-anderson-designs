@@ -372,6 +372,17 @@
   .ps-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: var(--bg); border: 1px solid var(--ink); padding: 14px 26px; font-family: var(--font-mono); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; transition: background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease), transform .3s var(--ease); }
   .ps-cta:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bg); transform: translateY(-2px); }
   .ps-specs { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .dl-form { display: none; flex-direction: column; gap: 8px; width: 100%; margin-top: 14px; }
+  .dl-form.is-open { display: flex; }
+  .dl-field { width: 100%; background: transparent; border: 1px solid var(--line-strong); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.4; padding: 12px 14px; transition: border-color .3s var(--ease); }
+  .dl-field::placeholder { color: var(--faint); }
+  .dl-field:focus { outline: none; border-color: var(--accent); }
+  .dl-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .dl-submit { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: var(--bg); border: 1px solid var(--ink); padding: 14px 26px; font-family: var(--font-mono); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; transition: background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease), transform .3s var(--ease); }
+  .dl-submit:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bg); transform: translateY(-2px); }
+  .dl-submit:disabled { opacity: .55; cursor: default; transform: none; }
+  .dl-msg { font-family: var(--font-mono); font-size: 12px; letter-spacing: .04em; color: var(--muted); }
+  .dl-msg.err { color: var(--ink); }
 
   /* ============================================================
      CONTACT
@@ -1040,9 +1051,17 @@
           </div>
         </div>
         <div class="ps-foot">
-          <a class="ps-cta" href="${pl.download}" download>${pl.cta}</a>
+          <button class="ps-cta" type="button" data-dl-btn data-dl-url="${pl.download}">${pl.cta}</button>
           <span class="ps-specs">${pl.specs.join(' &middot; ')}</span>
         </div>
+        <form class="dl-form" data-dl-form novalidate>
+          <input class="dl-field" type="text" name="name" placeholder="Your name" autocomplete="name" required>
+          <input class="dl-field" type="email" name="email" placeholder="Your email" autocomplete="email" required>
+          <div class="dl-row">
+            <button class="dl-submit" type="submit">Download</button>
+            <span class="dl-msg" data-dl-msg></span>
+          </div>
+        </form>
       </div>
     </article>`;
 
@@ -1127,6 +1146,46 @@
     if (psPrev) psPrev.addEventListener('click', () => showSlide(slideIdx - 1));
     if (psNext) psNext.addEventListener('click', () => showSlide(slideIdx + 1));
     slideDots.forEach(t => t.addEventListener('click', () => showSlide(Number(t.dataset.psGo))));
+
+    // --- Download (name + email capture) ---
+    const dlBtn = pluginTrack.querySelector('[data-dl-btn]');
+    const dlForm = pluginTrack.querySelector('[data-dl-form]');
+    const dlMsg = pluginTrack.querySelector('[data-dl-msg]');
+    const dlSubmit = dlForm ? dlForm.querySelector('.dl-submit') : null;
+    const dlUrl = dlBtn ? dlBtn.dataset.dlUrl : (pluginData[0] && pluginData[0].download);
+    const emailOk = v => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
+    const dlNote = (txt, isErr) => { if (dlMsg) { dlMsg.textContent = txt; dlMsg.classList.toggle('err', !!isErr); } };
+    if (dlBtn && dlForm) {
+      dlBtn.addEventListener('click', () => {
+        const open = dlForm.classList.toggle('is-open');
+        dlNote('', false);
+        if (open) { const f = dlForm.querySelector('[name="name"]'); if (f) f.focus(); }
+      });
+      dlForm.addEventListener('submit', async e => {
+        e.preventDefault();
+        const name = dlForm.querySelector('[name="name"]').value.trim();
+        const email = dlForm.querySelector('[name="email"]').value.trim();
+        if (!name) { dlNote('Please enter your name.', true); return; }
+        if (!emailOk(email)) { dlNote('Please enter a valid email address.', true); return; }
+        if (dlSubmit) { dlSubmit.disabled = true; dlSubmit.textContent = 'Sending…'; }
+        try {
+          await fetch('https://formsubmit.co/ajax/amirandersondesigns@gmail.com', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ name: name, email: email, _subject: 'New plugin download — Amir Anderson Motion Spell Checker', message: 'Downloaded the Motion Spell Checker plugin.' })
+          });
+        } catch (err) { /* always allow the download, even if the email fails */ }
+        if (dlUrl) {
+          const a = document.createElement('a');
+          a.href = dlUrl; a.download = '';
+          document.body.appendChild(a); a.click(); a.remove();
+        }
+        dlForm.classList.remove('is-open');
+        dlForm.reset();
+        if (dlSubmit) { dlSubmit.disabled = false; dlSubmit.textContent = 'Download'; }
+        dlNote(`Thanks, ${name} — your download is starting.`, false);
+      });
+    }
   }
 
   document.getElementById('year').textContent = new Date().getFullYear();
