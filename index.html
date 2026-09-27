@@ -302,7 +302,7 @@
   .plugins-head p { color: var(--muted); font-size: 16px; }
 
   .plugin-card.single {
-    display: grid;
+    display: none;
     grid-template-columns: calc(310px + 2 * clamp(24px, 2.8vw, 40px) + 1px) 1fr;
     align-items: stretch;
     border: 1px solid var(--line);
@@ -310,7 +310,17 @@
     overflow: hidden;
     transition: border-color .3s var(--ease);
   }
+  .plugin-card.single.is-active { display: grid; }
   .plugin-card.single:hover { border-color: var(--line-strong); }
+
+  .plugin-nav { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
+  .pn-arrow { width: 44px; height: 44px; flex: 0 0 auto; padding: 0; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 22px; line-height: 1; transition: color .3s var(--ease), border-color .3s var(--ease); }
+  .pn-arrow:hover { color: var(--accent-deep); border-color: var(--accent); }
+  .pn-arrow:disabled { opacity: .35; cursor: default; }
+  .pn-tabs { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .pn-tab { font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); background: transparent; padding: 11px 16px; cursor: pointer; transition: color .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease); }
+  .pn-tab:hover { color: var(--ink); border-color: var(--line-strong); }
+  .pn-tab.is-active { color: var(--ink); border-color: var(--accent); background: rgba(125, 167, 215, 0.09); }
   .plugin-card.single .ps-thumb {
     display: flex;
     flex-direction: column;
@@ -620,6 +630,11 @@
       <p>Tools I build to help creative teams work faster, stay consistent, and spend more time on the ideas themselves.</p>
     </div>
     <div class="plugin-rail reveal">
+      <div class="plugin-nav">
+        <button class="pn-arrow" type="button" data-plugin-prev aria-label="Previous plugin">←</button>
+        <div class="pn-tabs" data-plugin-tabs></div>
+        <button class="pn-arrow" type="button" data-plugin-next aria-label="Next plugin">→</button>
+      </div>
       <div class="plugin-track" data-plugin-track></div>
     </div>
   </section>
@@ -997,6 +1012,47 @@
       tint: '#6fa8da',
       glyph: 'Aa',
       mark: '&#10003;',
+      catsLabel: 'Dictionary Categories',
+      catsText: 'The dictionary has these categories:',
+    },
+    {
+      name: 'Animator Toolkit',
+      short: 'Animate faster and learn as you go — a toolkit panel for After Effects.',
+      desc: 'Puts everyday animation jobs one click away: setting anchor points, adding keyframes, easing, ready-made entrances and exits, text animation, masks, 3D, cameras, fast previews, audio fades and still grabs. Every button tells you what it did, and short lessons explain the "why" as you go.',
+      software: 'After Effects 2021+',
+      specs: ['Signed .zxp', 'CEP Panel', 'macOS & Windows'],
+      gifs: [
+        { src: 'assets/Animator-Toolkit-demo.gif', label: 'Walkthrough' },
+        { src: 'assets/Animator-Toolkit-Preview.gif', label: 'Preview' },
+        { src: 'assets/Animator-Toolkit-easing.gif', label: 'Easing' },
+        { src: 'assets/Animator-Toolkit-text.gif', label: 'Text' },
+        { src: 'assets/Animator-Toolkit-camera.gif', label: 'Camera' },
+        { src: 'assets/Animator-Toolkit-Shortcuts.gif', label: 'Shortcuts' },
+        { src: 'assets/Animator-Toolkit-search.gif', label: 'Search' },
+      ],
+      features: [
+        'One-click animation jobs — anchor points, keyframes, easing, entrances and exits.',
+        'Ready-made motion library — entrance and exit presets with a live hover preview.',
+        'Text animation — presets by letter, word, or line, plus extruded 3D text.',
+        'Cameras & 3D — create cameras, push / pull / orbit / shake, and spread layers in depth.',
+        'Fast previews — Animate Fast and Final Check setups, plus work-area and purge tools.',
+        'Learn as you go — short lessons, quick fixes, and plain-word shortcut explanations.',
+      ],
+      steps: [
+        { t: 'Set up', d: 'in Preview, click Animate Fast so playback stays real-time while you work' },
+        { t: 'Anchor', d: 'click a dot on the anchor grid so layers rotate and scale from the right point' },
+        { t: 'Animate', d: 'pick an Entrance tile like Slide Up + Fade, or add keyframes with one click' },
+        { t: 'Shape the timing', d: 'select keyframes and click Easy Ease, Overshoot, or Bounce' },
+        { t: 'Check & share', d: 'click Final Check before render, then Grab Still to send a quick approval' },
+      ],
+      install: 'Download the ZIP, then install the included Amir_Anderson_Animator_Toolkit.zxp with a free ZXP installer — ZXP Installer (aescripts.com/learn/zxp-installer) or Anastasiy\'s Extension Manager (install.anastasiy.com). Fully quit and reopen After Effects, then open Window → Extensions → Amir Anderson Animator Toolkit. Works in After Effects 2021 and newer on macOS or Windows.',
+      included: ['Signed Amir_Anderson_Animator_Toolkit.zxp', 'Quick Start Guide (PDF)', 'Install scripts & troubleshooting'],
+      categories: ['Home', 'Animate', 'Easing', 'Text', 'Mask', '3D', 'Camera', 'Capture', 'Preview', 'Audio', 'Favorites', 'Learn'],
+      download: 'downloads/2026_Amir_Anderson_Animator_Toolkit.zip',
+      totalCategories: 12,
+      cta: 'Try the Plugin',
+      catsLabel: 'Tabs & Tools',
+      catsText: 'The panel has these tabs:',
     },
   ];
 
@@ -1029,7 +1085,7 @@
           <button class="ps-zone" type="button" data-zone="features">Key Features</button>
           <button class="ps-zone" type="button" data-zone="steps">How It Works</button>
           <button class="ps-zone" type="button" data-zone="install">Install &amp; Included</button>
-          <button class="ps-zone" type="button" data-zone="cats">Dictionary Categories</button>
+          <button class="ps-zone" type="button" data-zone="cats">${pl.catsLabel || 'Categories'}</button>
         </div>
         <div class="ps-reveal">
           <div class="ps-panel" data-panel="features">
@@ -1043,7 +1099,7 @@
             <p class="ps-text ps-text-sub">${pl.included.join(' &middot; ')}</p>
           </div>
           <div class="ps-panel" data-panel="cats">
-            <p class="ps-cats-text">The dictionary has these categories:</p>
+            <p class="ps-cats-text">${pl.catsText || 'The dictionary has these categories:'}</p>
             <div class="ps-cats">
               ${pl.categories.map(c => `<span class="ps-cat">${c}</span>`).join('')}
               ${pl.totalCategories > pl.categories.length ? `<span class="ps-cats-more">and ${pl.totalCategories - pl.categories.length} more</span>` : ''}
@@ -1066,126 +1122,158 @@
     </article>`;
 
   const pluginTrack = document.querySelector('[data-plugin-track]');
+  const pluginTabs = document.querySelector('[data-plugin-tabs]');
   if (pluginTrack) {
-    pluginTrack.classList.add('single');
-    pluginTrack.innerHTML = pluginShowcase(pluginData[0]);
-    const pzones = pluginTrack.querySelectorAll('.ps-zone');
-    const ppanels = pluginTrack.querySelectorAll('.ps-panel');
-    const preveal = pluginTrack.querySelector('.ps-reveal');
-    const panelHeights = {};
-    const measurePanels = () => {
-      ppanels.forEach(pn => {
+    pluginTrack.innerHTML = pluginData.map(pl => pluginShowcase(pl)).join('');
+    const cards = [...pluginTrack.querySelectorAll('.plugin-card')];
+    const prevBtn = document.querySelector('[data-plugin-prev]');
+    const nextBtn = document.querySelector('[data-plugin-next]');
+
+    pluginTabs.innerHTML = pluginData.map((pl, i) =>
+      `<button class="pn-tab${i === 0 ? ' is-active' : ''}" type="button" data-plugin-go="${i}">${pl.name}</button>`
+    ).join('');
+    const tabs = [...pluginTabs.querySelectorAll('.pn-tab')];
+
+    const measureCardPanels = card => {
+      const heights = {};
+      card.querySelectorAll('.ps-panel').forEach(pn => {
         const prevPos = pn.style.position, prevInset = pn.style.inset;
         pn.style.position = 'static';
         pn.style.inset = 'auto';
-        panelHeights[pn.dataset.panel] = pn.scrollHeight;
+        heights[pn.dataset.panel] = pn.scrollHeight;
         pn.style.position = prevPos;
         pn.style.inset = prevInset;
       });
+      return heights;
     };
-    measurePanels();
-    if (preveal) preveal.style.height = '220px';
+
+    const fitActivePanel = card => {
+      const preveal = card.querySelector('.ps-reveal');
+      if (!preveal) return;
+      const heights = measureCardPanels(card);
+      const active = card.querySelector('.ps-panel.is-active');
+      preveal.style.height = ((active && heights[active.dataset.panel]) || 220) + 'px';
+    };
+
+    const initPluginCard = (card, pl) => {
+      const pzones = card.querySelectorAll('.ps-zone');
+      const ppanels = card.querySelectorAll('.ps-panel');
+      const preveal = card.querySelector('.ps-reveal');
+      const panelHeights = measureCardPanels(card);
+      if (preveal) preveal.style.height = '220px';
+
+      const pActivate = z => {
+        pzones.forEach(b => b.classList.toggle('is-active', b === z));
+        const n = z.dataset.zone;
+        ppanels.forEach(p => p.classList.toggle('is-active', p.dataset.panel === n));
+        if (preveal && panelHeights[n] != null) preveal.style.height = panelHeights[n] + 'px';
+      };
+      pzones.forEach(z => {
+        z.addEventListener('mouseenter', () => pActivate(z));
+        z.addEventListener('focus', () => pActivate(z));
+        z.addEventListener('click', () => pActivate(z));
+      });
+      const firstZone = card.querySelector('.ps-zone');
+      if (firstZone) pActivate(firstZone);
+
+      // --- GIF slideshow ---
+      const slideImgs = pl.gifs || [];
+      const stageImg = card.querySelector('.ps-stage-img');
+      const slideLabel = card.querySelector('[data-ps-label]');
+      const slideCur = card.querySelector('[data-ps-cur]');
+      const slideDots = card.querySelectorAll('[data-ps-go]');
+      slideImgs.forEach(g => { const im = new Image(); im.src = g.src; }); // preload all slides
+      let slideIdx = 0;
+      const showSlide = i => {
+        if (!stageImg || !slideImgs.length) return;
+        slideIdx = (i + slideImgs.length) % slideImgs.length;
+        const g = slideImgs[slideIdx];
+        stageImg.classList.add('is-switching');
+        setTimeout(() => {
+          stageImg.src = g.src;
+          stageImg.alt = `${pl.name} — ${g.label}`;
+          stageImg.classList.remove('is-switching');
+        }, 250);
+        if (slideLabel) slideLabel.textContent = g.label;
+        if (slideCur) slideCur.textContent = String(slideIdx + 1);
+        slideDots.forEach((t, idx) => {
+          const on = idx === slideIdx;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', String(on));
+        });
+      };
+      const psPrev = card.querySelector('[data-ps-prev]');
+      const psNext = card.querySelector('[data-ps-next]');
+      if (psPrev) psPrev.addEventListener('click', () => showSlide(slideIdx - 1));
+      if (psNext) psNext.addEventListener('click', () => showSlide(slideIdx + 1));
+      slideDots.forEach(t => t.addEventListener('click', () => showSlide(Number(t.dataset.psGo))));
+
+      // --- Download (name + email capture) ---
+      const dlBtn = card.querySelector('[data-dl-btn]');
+      const dlForm = card.querySelector('[data-dl-form]');
+      const dlMsg = card.querySelector('[data-dl-msg]');
+      const dlSubmit = dlForm ? dlForm.querySelector('.dl-submit') : null;
+      const dlUrl = dlBtn ? dlBtn.dataset.dlUrl : pl.download;
+      const emailOk = v => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
+      const dlNote = (txt, isErr) => { if (dlMsg) { dlMsg.textContent = txt; dlMsg.classList.toggle('err', !!isErr); } };
+      if (dlBtn && dlForm) {
+        dlBtn.addEventListener('click', () => {
+          const open = dlForm.classList.toggle('is-open');
+          dlNote('', false);
+          if (open) { const f = dlForm.querySelector('[name="name"]'); if (f) f.focus(); }
+        });
+        dlForm.addEventListener('submit', async e => {
+          e.preventDefault();
+          const name = dlForm.querySelector('[name="name"]').value.trim();
+          const email = dlForm.querySelector('[name="email"]').value.trim();
+          if (!name) { dlNote('Please enter your name.', true); return; }
+          if (!emailOk(email)) { dlNote('Please enter a valid email address.', true); return; }
+          if (dlSubmit) { dlSubmit.disabled = true; dlSubmit.textContent = 'Sending…'; }
+          try {
+            await fetch('https://formsubmit.co/ajax/amirandersondesigns@gmail.com', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({ name: name, email: email, _subject: `New plugin download — ${pl.name}`, message: `Downloaded ${pl.name}.` })
+            });
+          } catch (err) { /* always allow the download, even if the email fails */ }
+          if (dlUrl) {
+            const a = document.createElement('a');
+            a.href = dlUrl; a.download = '';
+            document.body.appendChild(a); a.click(); a.remove();
+          }
+          dlForm.classList.remove('is-open');
+          dlForm.reset();
+          if (dlSubmit) { dlSubmit.disabled = false; dlSubmit.textContent = 'Download'; }
+          dlNote(`Thanks, ${name} — your download is starting.`, false);
+        });
+      }
+    };
+
+    cards.forEach((card, i) => initPluginCard(card, pluginData[i]));
+
+    let activeIdx = 0;
+    const showPlugin = idx => {
+      activeIdx = idx;
+      cards.forEach((c, i) => c.classList.toggle('is-active', i === idx));
+      tabs.forEach((t, i) => t.classList.toggle('is-active', i === idx));
+      if (prevBtn) prevBtn.disabled = idx === 0;
+      if (nextBtn) nextBtn.disabled = idx === cards.length - 1;
+      fitActivePanel(cards[idx]);
+    };
+    if (prevBtn) prevBtn.addEventListener('click', () => showPlugin((activeIdx - 1 + cards.length) % cards.length));
+    if (nextBtn) nextBtn.addEventListener('click', () => showPlugin((activeIdx + 1) % cards.length));
+    tabs.forEach((t, i) => t.addEventListener('click', () => showPlugin(i)));
+
     let resizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        measurePanels();
-        const active = pluginTrack.querySelector('.ps-panel.is-active');
-        if (active && preveal) preveal.style.height = (panelHeights[active.dataset.panel] || 220) + 'px';
-      }, 150);
+      resizeTimer = setTimeout(() => fitActivePanel(cards[activeIdx]), 150);
     });
     if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(() => {
-        measurePanels();
-        const active = pluginTrack.querySelector('.ps-panel.is-active');
-        if (active && preveal) preveal.style.height = (panelHeights[active.dataset.panel] || 220) + 'px';
-      });
+      document.fonts.ready.then(() => fitActivePanel(cards[activeIdx]));
     }
-    const pActivate = z => {
-      pzones.forEach(b => b.classList.toggle('is-active', b === z));
-      const n = z.dataset.zone;
-      ppanels.forEach(p => p.classList.toggle('is-active', p.dataset.panel === n));
-      if (preveal && panelHeights[n] != null) preveal.style.height = panelHeights[n] + 'px';
-    };
-    pzones.forEach(z => {
-      z.addEventListener('mouseenter', () => pActivate(z));
-      z.addEventListener('focus', () => pActivate(z));
-      z.addEventListener('click', () => pActivate(z));
-    });
-    const firstZone = pluginTrack.querySelector('.ps-zone');
-    if (firstZone) pActivate(firstZone);
 
-    // --- GIF slideshow ---
-    const slideImgs = pluginData[0].gifs || [];
-    const stageImg = pluginTrack.querySelector('.ps-stage-img');
-    const slideLabel = pluginTrack.querySelector('[data-ps-label]');
-    const slideCur = pluginTrack.querySelector('[data-ps-cur]');
-    const slideDots = pluginTrack.querySelectorAll('[data-ps-go]');
-    slideImgs.forEach(g => { const im = new Image(); im.src = g.src; }); // preload all slides
-    let slideIdx = 0;
-    const showSlide = i => {
-      if (!stageImg || !slideImgs.length) return;
-      slideIdx = (i + slideImgs.length) % slideImgs.length;
-      const g = slideImgs[slideIdx];
-      stageImg.classList.add('is-switching');
-      setTimeout(() => {
-        stageImg.src = g.src;
-        stageImg.alt = `${pluginData[0].name} — ${g.label}`;
-        stageImg.classList.remove('is-switching');
-      }, 250);
-      if (slideLabel) slideLabel.textContent = g.label;
-      if (slideCur) slideCur.textContent = String(slideIdx + 1);
-      slideDots.forEach((t, idx) => {
-        const on = idx === slideIdx;
-        t.classList.toggle('is-active', on);
-        t.setAttribute('aria-selected', String(on));
-      });
-    };
-    const psPrev = pluginTrack.querySelector('[data-ps-prev]');
-    const psNext = pluginTrack.querySelector('[data-ps-next]');
-    if (psPrev) psPrev.addEventListener('click', () => showSlide(slideIdx - 1));
-    if (psNext) psNext.addEventListener('click', () => showSlide(slideIdx + 1));
-    slideDots.forEach(t => t.addEventListener('click', () => showSlide(Number(t.dataset.psGo))));
-
-    // --- Download (name + email capture) ---
-    const dlBtn = pluginTrack.querySelector('[data-dl-btn]');
-    const dlForm = pluginTrack.querySelector('[data-dl-form]');
-    const dlMsg = pluginTrack.querySelector('[data-dl-msg]');
-    const dlSubmit = dlForm ? dlForm.querySelector('.dl-submit') : null;
-    const dlUrl = dlBtn ? dlBtn.dataset.dlUrl : (pluginData[0] && pluginData[0].download);
-    const emailOk = v => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
-    const dlNote = (txt, isErr) => { if (dlMsg) { dlMsg.textContent = txt; dlMsg.classList.toggle('err', !!isErr); } };
-    if (dlBtn && dlForm) {
-      dlBtn.addEventListener('click', () => {
-        const open = dlForm.classList.toggle('is-open');
-        dlNote('', false);
-        if (open) { const f = dlForm.querySelector('[name="name"]'); if (f) f.focus(); }
-      });
-      dlForm.addEventListener('submit', async e => {
-        e.preventDefault();
-        const name = dlForm.querySelector('[name="name"]').value.trim();
-        const email = dlForm.querySelector('[name="email"]').value.trim();
-        if (!name) { dlNote('Please enter your name.', true); return; }
-        if (!emailOk(email)) { dlNote('Please enter a valid email address.', true); return; }
-        if (dlSubmit) { dlSubmit.disabled = true; dlSubmit.textContent = 'Sending…'; }
-        try {
-          await fetch('https://formsubmit.co/ajax/amirandersondesigns@gmail.com', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({ name: name, email: email, _subject: 'New plugin download — Amir Anderson Motion Spell Checker', message: 'Downloaded the Motion Spell Checker plugin.' })
-          });
-        } catch (err) { /* always allow the download, even if the email fails */ }
-        if (dlUrl) {
-          const a = document.createElement('a');
-          a.href = dlUrl; a.download = '';
-          document.body.appendChild(a); a.click(); a.remove();
-        }
-        dlForm.classList.remove('is-open');
-        dlForm.reset();
-        if (dlSubmit) { dlSubmit.disabled = false; dlSubmit.textContent = 'Download'; }
-        dlNote(`Thanks, ${name} — your download is starting.`, false);
-      });
-    }
+    showPlugin(0);
   }
 
   document.getElementById('year').textContent = new Date().getFullYear();
