@@ -1019,6 +1019,7 @@
       name: 'Animator Toolkit',
       short: 'Animate faster and learn as you go — a toolkit panel for After Effects.',
       desc: 'Puts everyday animation jobs one click away: setting anchor points, adding keyframes, easing, ready-made entrances and exits, text animation, masks, 3D, cameras, fast previews, audio fades and still grabs. Every button tells you what it did, and short lessons explain the "why" as you go.',
+      story: 'I built Animator Toolkit to support my college\u2019s students after graduation. Once they complete the advanced motion graphics course, students receive tools that help them accelerate their workflow. By sharing it with the class, the instructor gives students a valuable tool that boosts their productivity.',
       software: 'After Effects 2021+',
       specs: ['Signed .zxp', 'CEP Panel', 'macOS & Windows'],
       gifs: [
@@ -1080,6 +1081,7 @@
         <span class="ps-eyebrow"><span class="ps-badge">Free</span><span class="ps-badge">${pl.software}</span></span>
         <h3 class="ps-name">${pl.name}</h3>
         <p class="ps-intro-text">${pl.short} ${pl.desc}</p>
+        ${pl.story ? `<p class="ps-intro-text">${pl.story}</p>` : ''}
         <p class="ps-hint">Hover a topic to explore what's inside.</p>
         <div class="ps-zones">
           <button class="ps-zone" type="button" data-zone="features">Key Features</button>
