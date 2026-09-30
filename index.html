@@ -1113,8 +1113,8 @@
           <span class="ps-specs">${pl.specs.join(' &middot; ')}</span>
         </div>
         <form class="dl-form" data-dl-form novalidate>
-          <input class="dl-field" type="text" name="name" placeholder="Your name" autocomplete="name" required>
-          <input class="dl-field" type="email" name="email" placeholder="Your email" autocomplete="email" required>
+          <input class="dl-field" type="text" name="name" placeholder="Your name (optional)" autocomplete="name">
+          <input class="dl-field" type="email" name="email" placeholder="Your email (optional)" autocomplete="email">
           <div class="dl-row">
             <button class="dl-submit" type="submit">Download</button>
             <span class="dl-msg" data-dl-msg></span>
@@ -1228,16 +1228,19 @@
           e.preventDefault();
           const name = dlForm.querySelector('[name="name"]').value.trim();
           const email = dlForm.querySelector('[name="email"]').value.trim();
-          if (!name) { dlNote('Please enter your name.', true); return; }
-          if (!emailOk(email)) { dlNote('Please enter a valid email address.', true); return; }
-          if (dlSubmit) { dlSubmit.disabled = true; dlSubmit.textContent = 'Sending…'; }
-          try {
-            await fetch('https://formsubmit.co/ajax/amirandersondesigns@gmail.com', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-              body: JSON.stringify({ name: name, email: email, _subject: `New plugin download — ${pl.name}`, message: `Downloaded ${pl.name}.` })
-            });
-          } catch (err) { /* always allow the download, even if the email fails */ }
+          // Name & email are optional. Always allow the download; only send a
+          // notification email when a name was provided.
+          if (name) {
+            if (dlSubmit) { dlSubmit.disabled = true; dlSubmit.textContent = 'Sending…'; }
+            try {
+              await fetch('https://formsubmit.co/ajax/amirandersondesigns@gmail.com', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ name: name, email: emailOk(email) ? email : 'no-reply@amirandersondesigns.com', _subject: `New plugin download — ${pl.name}`, message: `Downloaded ${pl.name}.` })
+              });
+            } catch (err) { /* always allow the download, even if the email fails */ }
+            if (dlSubmit) { dlSubmit.disabled = false; dlSubmit.textContent = 'Download'; }
+          }
           if (dlUrl) {
             const a = document.createElement('a');
             a.href = dlUrl; a.download = '';
@@ -1245,8 +1248,7 @@
           }
           dlForm.classList.remove('is-open');
           dlForm.reset();
-          if (dlSubmit) { dlSubmit.disabled = false; dlSubmit.textContent = 'Download'; }
-          dlNote(`Thanks, ${name} — your download is starting.`, false);
+          dlNote(name ? `Thanks, ${name} — your download is starting.` : 'Your download is starting.', false);
         });
       }
     };
