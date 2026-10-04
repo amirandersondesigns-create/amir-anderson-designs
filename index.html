@@ -1153,7 +1153,7 @@
         </div>
         <form class="dl-form" data-dl-form novalidate>
           <input class="dl-field" type="text" name="name" placeholder="Your name" autocomplete="name" required>
-          <input class="dl-field" type="email" name="email" placeholder="Your email" autocomplete="email" required>
+          <input class="dl-field" type="email" name="email" placeholder="Your email (optional)" autocomplete="email">
           <div class="dl-row">
             <button class="dl-submit" type="submit">Download</button>
             <span class="dl-msg" data-dl-msg></span>
@@ -1249,7 +1249,7 @@
       if (psNext) psNext.addEventListener('click', () => showSlide(slideIdx + 1));
       slideDots.forEach(t => t.addEventListener('click', () => showSlide(Number(t.dataset.psGo))));
 
-      // --- Download (name + email capture) ---
+      // --- Download (name required; email optional) ---
       const dlBtn = card.querySelector('[data-dl-btn]');
       const dlForm = card.querySelector('[data-dl-form]');
       const dlMsg = card.querySelector('[data-dl-msg]');
@@ -1268,13 +1268,14 @@
           const name = dlForm.querySelector('[name="name"]').value.trim();
           const email = dlForm.querySelector('[name="email"]').value.trim();
           if (!name) { dlNote('Please enter your name.', true); return; }
-          if (!emailOk(email)) { dlNote('Please enter a valid email address.', true); return; }
           if (dlSubmit) { dlSubmit.disabled = true; dlSubmit.textContent = 'Sending…'; }
           try {
+            const payload = { name: name, _subject: `New plugin download — ${pl.name}`, message: `Downloaded ${pl.name}.` };
+            if (emailOk(email)) payload.email = email;
             await fetch('https://formsubmit.co/ajax/amirandersondesigns@gmail.com', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-              body: JSON.stringify({ name: name, email: email, _subject: `New plugin download — ${pl.name}`, message: `Downloaded ${pl.name}.` })
+              body: JSON.stringify(payload)
             });
           } catch (err) { /* always allow the download, even if the email fails */ }
           if (dlUrl) {
